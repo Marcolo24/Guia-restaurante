@@ -12,8 +12,13 @@ body {
     margin-right: 10px;
 }
 
-#img-principal {
-    height: 100px;
+#div-filtros {
+    display: flex;
+    align-items: center;
+    height: 500px;
+    background-image: url('../images/lupa.png');
+    background-size: cover;
+    background-position: center;
 }
 
 header {

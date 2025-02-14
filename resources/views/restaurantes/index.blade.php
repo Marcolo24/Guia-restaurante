@@ -2,6 +2,9 @@
 {{-- Poner los titulos de las paginas --}}
 @section('title', 'Menu principal')
 @section('content')
+    <div>
+        <img src="" alt="">
+    </div>
     <div class="container">
         <h1>Lista de Restaurantes</h1>
         <a href="{{ route('restaurantes.create') }}" class="btn btn-primary">Crear Restaurante</a>
