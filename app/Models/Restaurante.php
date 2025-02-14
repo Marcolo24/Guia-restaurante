@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Restaurante extends Model
 {
     use HasFactory;
-
+    protected $table = 'restaurante'; 
     // Definir las columnas que pueden ser llenadas de forma masiva
     protected $fillable = [
         'nombre',
