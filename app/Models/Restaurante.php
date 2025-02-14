@@ -10,6 +10,7 @@ class Restaurante extends Model
     use HasFactory;
     protected $table = 'restaurante'; 
     // Definir las columnas que pueden ser llenadas de forma masiva
+    protected $table = 'restaurante';
     protected $fillable = [
         'nombre',
         'direccion',

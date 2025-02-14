@@ -1,5 +1,6 @@
 @extends('layouts.app')
-
+{{-- Poner los titulos de las paginas --}}
+@section('title', 'Menu principal')
 @section('content')
     <div class="container">
         <h1>Lista de Restaurantes</h1>
