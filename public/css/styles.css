@@ -1,0 +1,30 @@
+* {
+    font-family: 'Merriweather', serif;
+}
+
+body {
+    margin:0;
+    background-color: #f0f0f0;
+}
+
+.img-header {
+    height: 50px;
+    margin-right: 10px;
+}
+
+#img-principal {
+    height: 100px;
+}
+
+header {
+    height: 80px;
+    background-color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+#titulo-principal {
+    color: white;
+}
