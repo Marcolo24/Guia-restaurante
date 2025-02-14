@@ -32,8 +32,8 @@ public function store(Request $request)
         'nombre' => 'required|string|max:255',
         'direccion' => 'required|string|max:255',
         'foto' => 'nullable|image|max:2048', // Validación para la imagen
-        'tipos_comida' => 'required|array',
-        'tipos_comida.*' => 'exists:tipos_comida,id', // Validar que los tipos de comida existan
+        'tipo_comida' => 'required|array',
+        'tipo_comida.*' => 'exists:tipo_comida,id_tipo_comida', // Validar que los tipos de comida existan
     ]);
 
     // Guardar el restaurante
@@ -50,7 +50,7 @@ public function store(Request $request)
     $restaurante->save();
 
     // Asociar tipos de comida al restaurante
-    $restaurante->tiposComida()->sync($request->tipos_comida);
+    $restaurante->tiposComida()->sync($request->tipo_comida);
 
     return redirect()->route('restaurantes.index')->with('success', 'Restaurante creado con éxito.');
 }

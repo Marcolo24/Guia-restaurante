@@ -23,8 +23,8 @@
         </div>
 
         <div class="mb-3">
-            <label for="tipos_comida" class="form-label">Tipos de Comida</label>
-            <select name="tipos_comida[]" class="form-control" multiple required>
+            <label for="tipo_comida" class="form-label">Tipos de Comida</label>
+            <select name="tipo_comida[]" class="form-control" multiple required>
                 @foreach ($tiposComida as $tipo)
                     <option value="{{ $tipo->id }}">{{ $tipo->nombre }}</option>
                 @endforeach
