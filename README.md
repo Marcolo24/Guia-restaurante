@@ -65,3 +65,11 @@ El objetivo es aprender a desarrollar sitios web con este framework mientras cre
 - **Juan Carlos Prado** 👨‍💻
 - **Adrian Vazquez** 🧑‍💻
 - **Sergi Masip** 👨🏿‍💻
+
+
+## 📦 Instalación de Dependencias / Migrations / Seeders
+- composer install
+- php artisan migrate:fresh --seed
+- php artisan db:seed --class=BarrioSeeder
+- php artisan db:seed --class=TipoComidaSeeder
+
