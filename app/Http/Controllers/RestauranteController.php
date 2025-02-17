@@ -11,50 +11,28 @@ use Illuminate\Support\Facades\Storage;
 class RestauranteController extends Controller
 {
     /**
-     * Muestra la lista de restaurantes.
-     *
-     * @return \Illuminate\View\View
+     * Muestra la página principal pública con las cards de restaurantes
+     */
+    public function principal()
+    {
+        $restaurantes = Restaurante::with(['barrio', 'tiposComida'])->get();
+        return view('principal.index', compact('restaurantes'));
+    }
+
+    /**
+     * Muestra la lista de restaurantes en el panel de administración
      */
     public function index()
     {
-        // Obtener todos los restaurantes con las relaciones 'barrio' y 'tiposComida'
         $restaurantes = Restaurante::with(['barrio', 'tiposComida'])->get();
-        
-        // Retornar la vista 'restaurantes.index' con los datos de los restaurantes
-        return view('principal.index', compact('restaurantes'));
+        return view('restaurantes.index', compact('restaurantes'));
     }
 
     public function create()
     {
-        $tiposComida = TipoComida::all(); // Asegúrate de obtener los tipos de comida desde la base de datos.
-        $barrios = Barrio::all(); // Obtener todos los barrios
-        
-        return view('restaurantes.create', compact('tiposComida', 'barrios')); // Pasar barrios a la vista
-
-{
-    $tiposComida = TipoComida::all(); // Asegúrate de obtener los tipos de comida desde la base de datos.
-    
-    return view('restaurantes.create', compact('tiposComida'));
-}
-public function store(Request $request)
-{
-    $request->validate([
-        'nombre' => 'required|string|max:255',
-        'direccion' => 'required|string|max:255',
-        'foto' => 'nullable|image|max:2048', // Validación para la imagen
-        'tipo_comida' => 'required|array',
-        'tipo_comida.*' => 'exists:tipo_comida,id_tipo_comida', // Validar que los tipos de comida existan
-    ]);
-
-    // Guardar el restaurante
-    $restaurante = new Restaurante();
-    $restaurante->nombre = $request->nombre;
-    $restaurante->direccion = $request->direccion;
-    
-    // Subir la foto si existe
-    if ($request->hasFile('foto')) {
-        $path = $request->foto->store('restaurantes_fotos', 'public');
-        $restaurante->foto = $path;
+        $tiposComida = TipoComida::all();
+        $barrios = Barrio::all();
+        return view('restaurantes.create', compact('tiposComida', 'barrios'));
     }
 
     public function store(Request $request)
@@ -70,10 +48,7 @@ public function store(Request $request)
             'tipo_comida' => 'required|exists:tipo_comida,id_tipo_comida',
             'id_barrio' => 'required|exists:barrio,id_barrio',
         ]);
-    // Asociar tipos de comida al restaurante
-    $restaurante->tiposComida()->sync($request->tipo_comida);
 
-        // Guardar el restaurante
         $restaurante = new Restaurante();
         $restaurante->nombre = $request->nombre;
         $restaurante->descripcion = $request->descripcion;
@@ -93,7 +68,8 @@ public function store(Request $request)
         // Asociar tipo de comida al restaurante
         $restaurante->tiposComida()->sync([$request->tipo_comida]);
 
-        return redirect()->route('restaurantes.index')->with('success', 'Restaurante creado con éxito.');
+        return redirect()->route('restaurantes.index')
+            ->with('success', 'Restaurante creado con éxito.');
     }
 
     public function edit($id)
@@ -129,6 +105,10 @@ public function store(Request $request)
         $restaurante->id_barrio = $request->id_barrio;
 
         if ($request->hasFile('imagen')) {
+            // Eliminar la imagen anterior si existe
+            if ($restaurante->imagen) {
+                Storage::disk('public')->delete($restaurante->imagen);
+            }
             $path = $request->imagen->store('restaurantes_fotos', 'public');
             $restaurante->imagen = $path;
         }
@@ -138,22 +118,19 @@ public function store(Request $request)
         // Actualizar tipo de comida
         $restaurante->tiposComida()->sync([$request->tipo_comida]);
 
-        return redirect()->route('restaurantes.index')->with('success', 'Restaurante actualizado con éxito.');
+        return redirect()->route('restaurantes.index')
+            ->with('success', 'Restaurante actualizado con éxito.');
     }
 
     public function destroy($id)
     {
         $restaurante = Restaurante::findOrFail($id);
         
-        // Eliminar la imagen si existe
         if ($restaurante->imagen) {
             Storage::disk('public')->delete($restaurante->imagen);
         }
         
-        // Eliminar las relaciones con tipos de comida
         $restaurante->tiposComida()->detach();
-        
-        // Eliminar el restaurante
         $restaurante->delete();
 
         return redirect()->route('restaurantes.index')

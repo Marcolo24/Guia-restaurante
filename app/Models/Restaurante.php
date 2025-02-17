@@ -9,17 +9,14 @@ class Restaurante extends Model
 {
     use HasFactory;
 
-    // Definir el nombre de la tabla si es diferente al predeterminado (en este caso es 'restaurante')
+    // Definir el nombre de la tabla si es diferente al predeterminado
     protected $table = 'restaurante';
     protected $primaryKey = 'id_restaurante';
 
     // Deshabilitar timestamps ya que no existen en la tabla
     public $timestamps = false;
 
-    // Definir los campos que son asignables en masa
-
     // Definir las columnas que pueden ser llenadas de forma masiva
-    protected $table = 'restaurante';
     protected $fillable = [
         'nombre',
         'descripcion',
