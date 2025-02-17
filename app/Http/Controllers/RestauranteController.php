@@ -18,7 +18,7 @@ class RestauranteController extends Controller
         $restaurantes = Restaurante::all();
         
         // Retornar la vista 'restaurantes.index' con los datos de los restaurantes
-        return view('restaurantes.index', compact('restaurantes'));
+        return view('principal.index', compact('restaurantes'));
     }
     public function create()
 {
