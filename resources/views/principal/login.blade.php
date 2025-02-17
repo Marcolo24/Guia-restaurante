@@ -7,11 +7,16 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        <div class="row justify-content-center mt-5">
-            <div class="col-md-6">
-                <div class="card">
+<body class="bg-black">
+    <div class="container-fluid">
+        <div class="row vh-100">
+            <!-- Columna de la imagen -->
+            <div class="col-md-6 h-100">
+                <img src="{{ asset('images/bcnfoodieguide.jpg') }}" alt="BCN Foodie Guide" class="img-fluid object-fit-cover h-100">
+            </div>
+            <!-- Columna del formulario -->
+            <div class="col-md-6 d-flex align-items-center h-100">
+                <div class="card w-75 mx-auto">
                     <div class="card-header text-center">
                         <h4>Iniciar Sesión</h4>
                     </div>
@@ -38,7 +43,8 @@
                             </div>
                     
                             <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                                <button type="submit" class="btn btn-primary mb-2">Iniciar Sesión</button>
+                                <a href="{{ route('restaurantes.index') }}">Registrarse</a>
                             </div>
                         </form>
                     </div>
