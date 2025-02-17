@@ -63,7 +63,7 @@ header {
 }
 
 #divfiltros * {
-    font-size: 20px;
+    font-size: 25px;
 }
 
 .btn-danger {
@@ -92,4 +92,24 @@ header {
     position: absolute;
     right: 0;
     padding: 1.25rem 1rem;
+
+#divfiltros form {
+    all: unset;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+#divfiltros form input, #divfiltros form select {
+    border:none
+}
+
+#divfiltros form input {
+    width: 80%;
+}
+
+.imgfiltro {
+    height: 30px;
 }

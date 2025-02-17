@@ -53,6 +53,40 @@
 
     <div>
 
+
+    <div id="div-filtros">
+        <div>
+            <h1 id="titulo">Elige entre los mejores restaurantes de Barcelona</h1>
+            <h2 id="subtitulo">El directorio foodie de Barcelona</h2>
+        </div>
+        <div id="divfiltros">
+            <form action="">
+                <img class="imgfiltro" src="{{ asset('images/lupablack.png') }}" alt="">
+                <input type="text" placeholder="Que buscas?">
+                <img class="imgfiltro" src="{{ asset('images/lupablack.png') }}" alt="">
+                <select name="tipo_comida" class="form-select">
+                    <option value="" selected>Tipo de comida</option>
+                    <option value="italiana">Italiana</option>
+                    <option value="japonesa">Japonesa</option>
+                    <option value="mexicana">Mexicana</option>
+                    <option value="mediterranea">Mediterránea</option>
+                    <option value="china">China</option>
+                </select>
+                <img class="imgfiltro" src="{{ asset('images/lupablack.png') }}" alt="">
+                <select name="barrio" class="form-select">
+                    <option value="" selected>Buscar por barrio</option>
+                    <option value="gracia">Gràcia</option>
+                    <option value="eixample">Eixample</option>
+                    <option value="sants">Sants</option>
+                    <option value="gotico">Gótico</option>
+                    <option value="born">Born</option>
+                </select>
+                <button type="submit" class="btn btn-danger">Buscar</button>
+            </form>
+        </div>
+    </div>
+    
+<div>
         <div class="row row-cols-1 row-cols-md-4 g-4 justify-content-center w-100 mt-5">
             @foreach ($restaurantes as $restaurante)
                 <div class="col">
