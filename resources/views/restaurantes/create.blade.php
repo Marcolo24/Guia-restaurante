@@ -8,25 +8,60 @@
         @csrf
         
         <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre del Restaurante</label>
-            <input type="text" name="nombre" class="form-control" value="{{ old('nombre') }}" required>
+            <label for="nombre_restaurante" class="form-label">Nombre del Restaurante</label>
+            <input type="text" id="nombre_restaurante" name="nombre" class="form-control" value="{{ old('nombre') }}" required>
         </div>
 
         <div class="mb-3">
-            <label for="direccion" class="form-label">Dirección</label>
-            <input type="text" name="direccion" class="form-control" value="{{ old('direccion') }}" required>
+            <label for="descripcion_restaurante" class="form-label">Descripción</label>
+            <input type="text" id="descripcion_restaurante" name="descripcion" class="form-control" value="{{ old('descripcion') }}" required>
         </div>
 
         <div class="mb-3">
-            <label for="foto" class="form-label">Foto del Restaurante</label>
-            <input type="file" name="foto" class="form-control">
+            <label for="precio_medio_restaurante" class="form-label">Precio Medio</label>
+            <input type="number" id="precio_medio_restaurante" name="precio_medio" class="form-control" value="{{ old('precio_medio') }}" required>
         </div>
 
         <div class="mb-3">
-            <label for="tipos_comida" class="form-label">Tipos de Comida</label>
-            <select name="tipos_comida[]" class="form-control" multiple required>
+            <label for="direccion_restaurante" class="form-label">Dirección</label>
+            <input type="text" id="direccion_restaurante" name="direccion" class="form-control" value="{{ old('direccion') }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="telefono_restaurante" class="form-label">Teléfono</label>
+            <input type="text" id="telefono_restaurante" name="telefono" class="form-control" value="{{ old('telefono') }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="web_restaurante" class="form-label">Sitio Web</label>
+            <input type="text" id="web_restaurante" name="web" class="form-control" value="{{ old('web') }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="imagen_restaurante" class="form-label">Foto del Restaurante</label>
+            <input type="file" id="imagen_restaurante" name="imagen" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="id_barrio" class="form-label">Barrio</label>
+            <select id="id_barrio" name="id_barrio" class="form-control" required>
+                <option value="">Seleccione un barrio</option>
+                @foreach ($barrios as $barrio)
+                    <option value="{{ $barrio->id_barrio }}" {{ old('id_barrio') == $barrio->id_barrio ? 'selected' : '' }}>
+                        {{ $barrio->barrio }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="tipo_comida" class="form-label">Tipo de Comida</label>
+            <select id="tipo_comida" name="tipo_comida" class="form-control" required>
+                <option value="">Seleccione un tipo de comida</option>
                 @foreach ($tiposComida as $tipo)
-                    <option value="{{ $tipo->id }}">{{ $tipo->nombre }}</option>
+                    <option value="{{ $tipo->id_tipo_comida }}" {{ old('tipo_comida') == $tipo->id_tipo_comida ? 'selected' : '' }}>
+                        {{ $tipo->nombre }}
+                    </option>
                 @endforeach
             </select>
         </div>
