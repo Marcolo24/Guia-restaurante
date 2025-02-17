@@ -37,6 +37,8 @@
                         <td>
                             {{-- <a href="{{ route('restaurantes.edit', $restaurante->id) }}" class="btn btn-warning">Editar</a> --}}
                             {{-- <form action="{{ route('restaurantes.destroy', $restaurante->id) }}" method="POST" style="display:inline;"> --}}
+                            <a href="{{ route('restaurantes.edit', $restaurante->id) }}" class="btn btn-warning">Editar</a>
+                            <form action="{{ route('restaurantes.destroy', $restaurante->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Eliminar</button>
@@ -47,4 +49,5 @@
             </tbody>
         </table>
     </div>
+@endsection
 @endsection

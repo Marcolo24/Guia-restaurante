@@ -17,6 +17,9 @@ class Restaurante extends Model
     public $timestamps = false;
 
     // Definir los campos que son asignables en masa
+
+    // Definir las columnas que pueden ser llenadas de forma masiva
+    protected $table = 'restaurante';
     protected $fillable = [
         'nombre',
         'descripcion',
