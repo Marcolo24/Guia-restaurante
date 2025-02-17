@@ -23,11 +23,8 @@ class AuthController extends Controller
             Auth::login($user);
             $request->session()->regenerate();
             
-            if ($user->id_rol === 1) {
-                return redirect()->intended('/admin/restaurantes');
-            }
-            
-            return redirect()->intended('/');
+            // Siempre redirigir a la página principal
+            return redirect()->route('principal.index');
         }
 
         return back()->withErrors([
@@ -40,6 +37,32 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+        
+        return redirect()->route('principal.index')->with('success', 'Has cerrado sesión correctamente');
+    }
+
+    public function showRegisterForm()
+    {
+        return view('principal.register');
+    }
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255|unique:users',
+            'correo' => 'required|string|email|max:255|unique:users',
+            'contrasena' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = new User();
+        $user->nombre = $request->nombre;
+        $user->correo = $request->correo;
+        $user->contrasena = password_hash($request->contrasena, PASSWORD_BCRYPT);
+        $user->id_rol = 2;
+        $user->save();
+
+        Auth::login($user);
+
         return redirect('/');
     }
 }

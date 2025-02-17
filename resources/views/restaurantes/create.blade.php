@@ -58,8 +58,6 @@
             <label for="tipo_comida" class="form-label">Tipo de Comida</label>
             <select id="tipo_comida" name="tipo_comida" class="form-control" required>
                 <option value="">Seleccione un tipo de comida</option>
-            <label for="tipo_comida" class="form-label">Tipos de Comida</label>
-            <select name="tipo_comida[]" class="form-control" multiple required>
                 @foreach ($tiposComida as $tipo)
                     <option value="{{ $tipo->id_tipo_comida }}" {{ old('tipo_comida') == $tipo->id_tipo_comida ? 'selected' : '' }}>
                         {{ $tipo->nombre }}

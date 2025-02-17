@@ -8,34 +8,49 @@
             <h2 id="subtitulo">El directorio foodie de Barcelona</h2>
         </div>
         <div id="divfiltros">
-            <form action="">
+            <form action="{{ route('principal.index') }}" method="GET">
                 <img class="imgfiltro" src="{{ asset('images/lupablack.png') }}" alt="">
-                <input type="text" placeholder="Que buscas?">
+                <input type="text" name="busqueda" placeholder="Que buscas?" value="{{ request('busqueda') }}">
+                
                 <img class="imgfiltro" src="{{ asset('images/hamburguesa.png') }}" alt="">
                 <select name="tipo_comida" class="form-select">
-                    <option value="" selected>Tipo de comida</option>
-                    <option value="italiana">Italiana</option>
-                    <option value="japonesa">Japonesa</option>
-                    <option value="mexicana">Mexicana</option>
-                    <option value="mediterranea">Mediterránea</option>
-                    <option value="china">China</option>
+                    <option value="">Tipo de comida</option>
+                    @foreach($tiposComida as $tipo)
+                        <option value="{{ $tipo->nombre }}" {{ request('tipo_comida') == $tipo->nombre ? 'selected' : '' }}>
+                            {{ $tipo->nombre }}
+                        </option>
+                    @endforeach
                 </select>
+                
                 <img class="imgfiltro" src="{{ asset('images/edificio.png') }}" alt="">
                 <select name="barrio" class="form-select">
-                    <option value="" selected>Buscar por barrio</option>
-                    <option value="gracia">Gràcia</option>
-                    <option value="eixample">Eixample</option>
-                    <option value="sants">Sants</option>
-                    <option value="gotico">Gótico</option>
-                    <option value="born">Born</option>
+                    <option value="">Buscar por barrio</option>
+                    @foreach($barrios as $barrio)
+                        <option value="{{ $barrio->barrio }}" {{ request('barrio') == $barrio->barrio ? 'selected' : '' }}>
+                            {{ $barrio->barrio }}
+                        </option>
+                    @endforeach
                 </select>
+                
                 <button type="submit" class="btn btn-danger">Buscar</button>
+                
+                @if(request('busqueda') || request('tipo_comida') || request('barrio'))
+                    <a href="{{ route('principal.index') }}" class="btn btn-secondary">Limpiar filtros</a>
+                @endif
             </form>
         </div>
     </div>
     
 <div>
         <div class="row row-cols-1 row-cols-md-4 g-4 justify-content-center w-100 mt-5">
+            @if(isset($mensaje))
+                <div class="col-12 text-center">
+                    <div class="alert alert-info">
+                        {{ $mensaje }}
+                    </div>
+                </div>
+            @endif
+
             @foreach ($restaurantes as $restaurante)
                 <div class="col">
                     <div class="card h-100">
@@ -53,6 +68,10 @@
                                 <strong>Precio medio:</strong> 
                                 {{ $restaurante->precio_medio }}€
                             </p>
+                            <p class="card-text">
+                                <strong>Barrio:</strong> 
+                                {{ $restaurante->barrio->barrio ?? 'Sin especificar' }}
+                            </p>
                             
                             <div class="rating">
                                 <div class="stars">
@@ -61,7 +80,7 @@
                                             Inicia sesión para valorar
                                         </div>
                                     @else
-                                        <form class="rating-form" action="{{ route('restaurantes.rate', $restaurante->id_restaurante) }}" method="POST">
+                                        {{-- <form class="rating-form" action="{{ route('restaurantes.rate', $restaurante->id_restaurante) }}" method="POST"> --}}
                                             @csrf
                                             <div class="star-rating">
                                                 @for ($i = 5; $i >= 1; $i--)

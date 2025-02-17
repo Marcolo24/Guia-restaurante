@@ -2,12 +2,23 @@
 
 @section('content')
     <div class="container">
-        <h1>Lista de Restaurantes</h1>
-        <a href="{{ route('restaurantes.create') }}" class="btn btn-primary">Crear Restaurante</a>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1>Lista de Restaurantes</h1>
+            <div>
+                <a href="{{ route('principal.index') }}" class="btn btn-secondary">Volver a Principal</a>
+                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
+                </form>
+            </div>
+        </div>
+
+        <a href="{{ route('restaurantes.create') }}" class="btn btn-primary mb-3">Crear Restaurante</a>
         
         @if(session('success'))
-            <div class="alert alert-success mt-3">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
 

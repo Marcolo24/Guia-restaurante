@@ -3,25 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Registro</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="bg-black">
-    <div class="container-fluid">
-        <div class="row vh-100">
-            <!-- Columna de la imagen -->
-            <div class="col-md-6 h-100">
-                <img src="{{ asset('images/bcnfoodieguide.jpg') }}" alt="BCN Foodie Guide" class="img-fluid object-fit-cover h-100">
-            </div>
-            <!-- Columna del formulario -->
-            <div class="col-md-6 d-flex align-items-center h-100">
-                <div class="card w-75 mx-auto">
+<body>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="card">
                     <div class="card-header text-center">
-                        <h4>Iniciar Sesión</h4>
+                        <h4>Registro</h4>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('login.post') }}">
+                        <form method="POST" action="{{ route('register.post') }}">
                             @csrf
                             
                             <div class="mb-3">
@@ -29,6 +24,15 @@
                                 <input type="text" class="form-control @error('nombre') is-invalid @enderror" 
                                        id="nombre" name="nombre" value="{{ old('nombre') }}" required>
                                 @error('nombre')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="correo" class="form-label">Correo Electrónico</label>
+                                <input type="email" class="form-control @error('correo') is-invalid @enderror" 
+                                       id="correo" name="correo" value="{{ old('correo') }}" required>
+                                @error('correo')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -41,14 +45,20 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+
+                            <div class="mb-3">
+                                <label for="contrasena_confirmation" class="form-label">Confirmar Contraseña</label>
+                                <input type="password" class="form-control" 
+                                       id="contrasena_confirmation" name="contrasena_confirmation" required>
+                            </div>
                     
                             <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary mb-2">Iniciar Sesión</button>
+                                <button type="submit" class="btn btn-primary">Registrarse</button>
                             </div>
                         </form>
                         
                         <div class="text-center mt-3">
-                            <p>¿No tienes cuenta? <a href="{{ route('register') }}">Regístrate aquí</a></p>
+                            <p>¿Ya tienes cuenta? <a href="{{ route('login') }}">Inicia sesión aquí</a></p>
                         </div>
                     </div>
                 </div>
@@ -59,4 +69,4 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
+</html> 

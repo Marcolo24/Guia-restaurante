@@ -7,16 +7,49 @@ use App\Models\Restaurante;
 use App\Models\Barrio; // Importa el modelo Barrio
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class RestauranteController extends Controller
 {
     /**
      * Muestra la página principal pública con las cards de restaurantes
      */
-    public function principal()
+    public function principal(Request $request)
     {
-        $restaurantes = Restaurante::with(['barrio', 'tiposComida'])->get();
-        return view('principal.index', compact('restaurantes'));
+        // Iniciar la consulta con las relaciones necesarias
+        $query = Restaurante::with(['barrio', 'tiposComida']);
+
+        // Filtro por nombre/búsqueda general
+        if ($request->filled('busqueda')) {
+            $busqueda = $request->busqueda;
+            $query->where(function($q) use ($busqueda) {
+                $q->where('nombre', 'like', '%' . $busqueda . '%')
+                  ->orWhere('descripcion', 'like', '%' . $busqueda . '%');
+            });
+        }
+
+        // Filtro por tipo de comida
+        if ($request->filled('tipo_comida')) {
+            $query->whereHas('tiposComida', function($q) use ($request) {
+                $q->where('nombre', $request->tipo_comida);
+            });
+        }
+
+        // Filtro por barrio
+        if ($request->filled('barrio')) {
+            $query->whereHas('barrio', function($q) use ($request) {
+                $q->where('barrio', $request->barrio);
+            });
+        }
+
+        // Ejecutar la consulta
+        $restaurantes = $query->get();
+        
+        // Obtener todos los tipos de comida y barrios para los selectores
+        $tiposComida = TipoComida::all();
+        $barrios = Barrio::all();
+
+        return view('principal.index', compact('restaurantes', 'tiposComida', 'barrios'));
     }
 
     /**
