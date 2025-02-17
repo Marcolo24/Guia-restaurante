@@ -35,7 +35,6 @@
     </div>
     
 <div>
-
         <div class="row row-cols-1 row-cols-md-4 g-4 justify-content-center w-100 mt-5">
             @foreach ($restaurantes as $restaurante)
                 <div class="col">
