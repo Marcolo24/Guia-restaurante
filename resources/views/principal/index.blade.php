@@ -33,57 +33,10 @@
             </form>
         </div>
     </div>
-    <div class="container">
-        <h1>Lista de Restaurantes</h1>
-        <a href="{{ route('restaurantes.create') }}" class="btn btn-primary">Crear Restaurante</a>
-        <table class="table mt-3">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Precio Medio</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($restaurantes as $restaurante)
-                    <tr>
-                        <td>{{ $restaurante->nombre }}</td>
-                        <td>{{ $restaurante->descripcion }}</td>
-                        <td>{{ $restaurante->precio_medio }}</td>
-                        <td>
-                            <a href="{{ route('restaurantes.edit', $restaurante->id) }}" class="btn btn-warning">Editar</a>
-                            <form action="{{ route('restaurantes.destroy', $restaurante->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Eliminar</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    <div class="container">
-        <div class="d-flex justify-content-end mb-4">
-            {{-- <a href="{{ route('login') }}" class="btn btn-primary">Iniciar Sesión</a> --}}
-        </div>
+    
+<div>
 
-        <div id="div-filtros" class="mb-5">
-            <div class="text-center mb-4">
-                <h1 id="titulo">Elige entre los mejores restaurantes de Barcelona</h1>
-                <h2 id="subtitulo">El directorio foodie de Barcelona</h2>
-            </div>
-            <div id="divfiltros">
-                <form action="" class="d-flex justify-content-center gap-2">
-                    <input type="text" class="form-control" placeholder="Que buscas?">
-                    <input type="text" class="form-control" placeholder="Tipo de comida">
-                    <input type="text" class="form-control" placeholder="Buscar por barrio">
-                    <button type="submit" class="btn btn-danger">Buscar</button>
-                </form>
-            </div>
-        </div>
-
-        <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="row row-cols-1 row-cols-md-4 g-4 justify-content-center w-100 mt-5">
             @foreach ($restaurantes as $restaurante)
                 <div class="col">
                     <div class="card h-100">
@@ -128,6 +81,7 @@
             @endforeach
         </div>
     </div>
+</div>
 
     @push('scripts')
     <script>
