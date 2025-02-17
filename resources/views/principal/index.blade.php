@@ -2,6 +2,58 @@
 {{-- Poner los titulos de las paginas --}}
 @section('title', 'Menu principal')
 @section('content')
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    <div id="div-filtros">
+        <div>
+            <h1 id="titulo">Elige entre los mejores restaurantes de Barcelona</h1>
+            <h2 id="subtitulo">El directorio foodie de Barcelona</h2>
+        </div>
+        <div id="divfiltros">
+            <form action="">
+                <img class="imgfiltro" src="{{ asset('images/lupablack.png') }}" alt="">
+                <input type="text" placeholder="Que buscas?">
+                <img class="imgfiltro" src="{{ asset('images/lupablack.png') }}" alt="">
+                <select name="tipo_comida" class="form-select">
+                    <option value="" selected>Tipo de comida</option>
+                    <option value="italiana">Italiana</option>
+                    <option value="japonesa">Japonesa</option>
+                    <option value="mexicana">Mexicana</option>
+                    <option value="mediterranea">Mediterránea</option>
+                    <option value="china">China</option>
+                </select>
+                <img class="imgfiltro" src="{{ asset('images/lupablack.png') }}" alt="">
+                <select name="barrio" class="form-select">
+                    <option value="" selected>Buscar por barrio</option>
+                    <option value="gracia">Gràcia</option>
+                    <option value="eixample">Eixample</option>
+                    <option value="sants">Sants</option>
+                    <option value="gotico">Gótico</option>
+                    <option value="born">Born</option>
+                </select>
+                <button type="submit" class="btn btn-danger">Buscar</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Botón de cerrar sesión -->
+    @auth
+        <div class="text-end mb-3">
+            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                @csrf
+                <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
+            </form>
+        </div>
+    @endauth
+
+    <div>
+
+
     <div id="div-filtros">
         <div>
             <h1 id="titulo">Elige entre los mejores restaurantes de Barcelona</h1>
@@ -53,27 +105,6 @@
                                 <strong>Precio medio:</strong> 
                                 {{ $restaurante->precio_medio }}€
                             </p>
-                            
-                            <div class="rating">
-                                <div class="stars">
-                                    @guest
-                                        <div class="text-muted mb-2">
-                                            Inicia sesión para valorar
-                                        </div>
-                                    @else
-                                        <form class="rating-form" action="{{ route('restaurantes.rate', $restaurante->id_restaurante) }}" method="POST">
-                                            @csrf
-                                            <div class="star-rating">
-                                                @for ($i = 5; $i >= 1; $i--)
-                                                    <input type="radio" id="star{{ $i }}-{{ $restaurante->id_restaurante }}" 
-                                                           name="rating" value="{{ $i }}">
-                                                    <label for="star{{ $i }}-{{ $restaurante->id_restaurante }}">☆</label>
-                                                @endfor
-                                            </div>
-                                        </form>
-                                    @endguest
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -81,6 +112,7 @@
         </div>
     </div>
 </div>
+
 
     @push('scripts')
     <script>

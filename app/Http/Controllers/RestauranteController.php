@@ -7,6 +7,7 @@ use App\Models\Restaurante;
 use App\Models\Barrio; // Importa el modelo Barrio
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class RestauranteController extends Controller
 {
