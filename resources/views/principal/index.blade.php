@@ -35,6 +35,8 @@
                         <td>{{ $restaurante->descripcion }}</td>
                         <td>{{ $restaurante->precio_medio }}</td>
                         <td>
+                            {{-- <a href="{{ route('restaurantes.edit', $restaurante->id) }}" class="btn btn-warning">Editar</a> --}}
+                            {{-- <form action="{{ route('restaurantes.destroy', $restaurante->id) }}" method="POST" style="display:inline;"> --}}
                             <a href="{{ route('restaurantes.edit', $restaurante->id) }}" class="btn btn-warning">Editar</a>
                             <form action="{{ route('restaurantes.destroy', $restaurante->id) }}" method="POST" style="display:inline;">
                                 @csrf
@@ -47,4 +49,5 @@
             </tbody>
         </table>
     </div>
+@endsection
 @endsection
