@@ -84,3 +84,11 @@ header {
 #divfiltros form input, #divfiltros form select {
     border:none
 }
+
+#divfiltros form input {
+    width: 80%;
+}
+
+.imgfiltro {
+    height: 30px;
+}

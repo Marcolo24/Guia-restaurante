@@ -9,7 +9,9 @@
         </div>
         <div id="divfiltros">
             <form action="">
+                <img class="imgfiltro" src="{{ asset('images/lupablack.png') }}" alt="">
                 <input type="text" placeholder="Que buscas?">
+                <img class="imgfiltro" src="{{ asset('images/lupablack.png') }}" alt="">
                 <select name="tipo_comida" class="form-select">
                     <option value="" selected>Tipo de comida</option>
                     <option value="italiana">Italiana</option>
@@ -18,6 +20,7 @@
                     <option value="mediterranea">Mediterránea</option>
                     <option value="china">China</option>
                 </select>
+                <img class="imgfiltro" src="{{ asset('images/lupablack.png') }}" alt="">
                 <select name="barrio" class="form-select">
                     <option value="" selected>Buscar por barrio</option>
                     <option value="gracia">Gràcia</option>
