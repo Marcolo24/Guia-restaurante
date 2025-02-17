@@ -12,6 +12,14 @@ body {
     margin-right: 10px;
 }
 
+/* Nuevo estilo para la lupa */
+.imgfiltro {
+    height: 50px;
+    width: 50px;
+    padding: 10px;
+    object-fit: contain;
+}
+
 #div-filtros {
     display: flex;
     flex-direction: column;
@@ -72,6 +80,13 @@ header {
     padding-left: 20px;
 }
 
+.btn-secondary {
+    border-radius: 30px;
+    padding-right: 20px;
+    padding-left: 20px;
+    margin-left: 10px;
+}
+
 .alert {
     margin: 1rem;
     padding: 1rem;
@@ -92,6 +107,7 @@ header {
     position: absolute;
     right: 0;
     padding: 1.25rem 1rem;
+}
 
 #divfiltros form {
     all: unset;
@@ -103,13 +119,24 @@ header {
 }
 
 #divfiltros form input, #divfiltros form select {
-    border:none
+    border: none;
+    padding: 10px;
+    background-color: transparent;
 }
 
 #divfiltros form input {
     width: 80%;
 }
 
-.imgfiltro {
-    height: 30px;
+#divfiltros form select {
+    min-width: 200px;
+}
+
+.alert-info {
+    background-color: #cce5ff;
+    border-color: #b8daff;
+    color: #004085;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 20px 0;
 }

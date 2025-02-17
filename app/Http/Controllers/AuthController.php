@@ -58,7 +58,7 @@ class AuthController extends Controller
         $user->nombre = $request->nombre;
         $user->correo = $request->correo;
         $user->contrasena = password_hash($request->contrasena, PASSWORD_BCRYPT);
-        $user->id_rol = 2; // Rol de usuario normal
+        $user->id_rol = 2;
         $user->save();
 
         Auth::login($user);
