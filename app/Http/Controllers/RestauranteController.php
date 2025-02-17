@@ -17,11 +17,11 @@ class RestauranteController extends Controller
      */
     public function index()
     {
-        // Obtener todos los restaurantes con la relación 'barrio'
-        $restaurantes = Restaurante::with('barrio')->get(); // Carga la relación 'barrio'
+        // Obtener todos los restaurantes con las relaciones 'barrio' y 'tiposComida'
+        $restaurantes = Restaurante::with(['barrio', 'tiposComida'])->get();
         
         // Retornar la vista 'restaurantes.index' con los datos de los restaurantes
-        return view('restaurantes.index', compact('restaurantes'));
+        return view('principal.index', compact('restaurantes'));
     }
 
     public function create()

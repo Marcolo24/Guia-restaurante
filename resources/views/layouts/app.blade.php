@@ -4,65 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guía de Restaurantes</title>
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Font Awesome para iconos -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    
+    <title>@yield('title')</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <style>
-        .navbar-brand {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        
-        .container {
-            margin-top: 2rem;
-        }
-        
-        .table img {
-            max-width: 100px;
-            height: auto;
-        }
-        
-        .btn-group {
-            gap: 5px;
-        }
-        
-        .alert {
-            margin-top: 1rem;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
     </style>
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}"> <!-- Aquí se carga el CSS -->
 </head>
+<header>
+    <div>
+        <h1 id="titulo-principal">BCNFoodieGuide</h1>
+    </div>
+    <div>
+    {{-- Hay que colocar los links de las rutas --}}
+    <a href="">
+        <img class="img-header" src="{{ asset('images/lista.png') }}" alt="">
+    </a>
+    <a href="">
+        <img class="img-header" src="{{ asset('images/lupa.png') }}" alt="">
+    </a>
+    <a href="">
+    <img class="img-header" src="{{ asset('images/sesion.png') }}" alt="">
+    </a>
+    </div>
+</header>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="{{ route('restaurantes.index') }}">
-                <i class="fas fa-utensils me-2"></i>Guía de Restaurantes
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
-    </nav>
-
-    <!-- Contenido principal -->
-    <main class="container py-4">
-        @yield('content')
+    <main>
+        @yield('content') <!-- Aquí se inyectará el contenido de las vistas hijas -->
     </main>
-
-    <!-- Footer -->
-    <footer class="bg-light py-4 mt-5">
-        <div class="container text-center">
-            <p class="mb-0">&copy; {{ date('Y') }} Guía de Restaurantes. Todos los derechos reservados.</p>
-        </div>
-    </footer>
-
-    <!-- Bootstrap JS y Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

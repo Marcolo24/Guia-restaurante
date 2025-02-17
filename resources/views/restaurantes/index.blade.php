@@ -21,6 +21,7 @@
                     <th>Teléfono</th>
                     <th>Web</th>
                     <th>Barrio</th>
+                    <th>Tipo de Comida</th>
                     <th>Acciones</th> 
                 </tr>
             </thead>
@@ -34,6 +35,7 @@
                         <td>{{ $restaurante->telefono }}</td>
                         <td>{{ $restaurante->web }}</td>
                         <td>{{ $restaurante->barrio->barrio ?? 'Sin barrio' }}</td>
+                        <td>{{ $restaurante->tiposComida->first()->nombre ?? 'Sin especificar' }}</td>
                         <td>
                             <div class="btn-group" role="group">
                                 <a href="{{ route('restaurantes.edit', $restaurante->id_restaurante) }}" 
