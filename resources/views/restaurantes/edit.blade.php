@@ -3,40 +3,64 @@
 @section('content')
     <div class="container">
         <h1>Editar Restaurante</h1>
-        <form action="{{ route('restaurantes.update', $restaurante->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('restaurantes.update', $restaurante->id_restaurante) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" name="nombre" class="form-control" value="{{ $restaurante->nombre }}" required>
+                <label for="nombre_restaurante" class="form-label">Nombre del Restaurante</label>
+                <input type="text" id="nombre_restaurante" name="nombre" class="form-control" value="{{ old('nombre', $restaurante->nombre) }}" required>
             </div>
             <div class="mb-3">
-                <label for="descripcion" class="form-label">Descripción</label>
-                <textarea name="descripcion" class="form-control" required>{{ $restaurante->descripcion }}</textarea>
+                <label for="descripcion_restaurante" class="form-label">Descripción</label>
+                <input type="text" id="descripcion_restaurante" name="descripcion" class="form-control" value="{{ old('descripcion', $restaurante->descripcion) }}" required>
             </div>
             <div class="mb-3">
-                <label for="precio_medio" class="form-label">Precio Medio</label>
-                <input type="number" name="precio_medio" class="form-control" value="{{ $restaurante->precio_medio }}" required>
+                <label for="precio_medio_restaurante" class="form-label">Precio Medio</label>
+                <input type="number" id="precio_medio_restaurante" name="precio_medio" class="form-control" value="{{ old('precio_medio', $restaurante->precio_medio) }}" required>
             </div>
             <div class="mb-3">
-                <label for="direccion" class="form-label">Dirección</label>
-                <input type="text" name="direccion" class="form-control" value="{{ $restaurante->direccion }}" required>
+                <label for="direccion_restaurante" class="form-label">Dirección</label>
+                <input type="text" id="direccion_restaurante" name="direccion" class="form-control" value="{{ old('direccion', $restaurante->direccion) }}" required>
             </div>
             <div class="mb-3">
-                <label for="foto" class="form-label">Foto</label>
-                <input type="file" name="foto" class="form-control">
+                <label for="telefono_restaurante" class="form-label">Teléfono</label>
+                <input type="text" id="telefono_restaurante" name="telefono" class="form-control" value="{{ old('telefono', $restaurante->telefono) }}" required>
             </div>
             <div class="mb-3">
-                <label for="tipos_comida" class="form-label">Tipos de Comida</label>
-                <select name="tipos_comida[]" class="form-control" multiple required>
+                <label for="web_restaurante" class="form-label">Sitio Web</label>
+                <input type="text" id="web_restaurante" name="web" class="form-control" value="{{ old('web', $restaurante->web) }}">
+            </div>
+            <div class="mb-3">
+                <label for="imagen_restaurante" class="form-label">Foto del Restaurante</label>
+                <input type="file" id="imagen_restaurante" name="imagen" class="form-control">
+                @if($restaurante->imagen)
+                    <img src="{{ asset('storage/' . $restaurante->imagen) }}" alt="Imagen actual" class="mt-2" style="max-width: 200px;">
+                @endif
+            </div>
+            <div class="mb-3">
+                <label for="id_barrio" class="form-label">Barrio</label>
+                <select id="id_barrio" name="id_barrio" class="form-control" required>
+                    <option value="">Seleccione un barrio</option>
+                    @foreach ($barrios as $barrio)
+                        <option value="{{ $barrio->id_barrio }}" {{ old('id_barrio', $restaurante->id_barrio) == $barrio->id_barrio ? 'selected' : '' }}>
+                            {{ $barrio->barrio }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="tipo_comida" class="form-label">Tipo de Comida</label>
+                <select id="tipo_comida" name="tipo_comida" class="form-control" required>
+                    <option value="">Seleccione un tipo de comida</option>
                     @foreach ($tiposComida as $tipo)
-                        <option value="{{ $tipo->id }}" {{ in_array($tipo->id, $restaurante->tiposComida->pluck('id')->toArray()) ? 'selected' : '' }}>
+                        <option value="{{ $tipo->id_tipo_comida }}" {{ old('tipo_comida', $restaurante->tiposComida->first()->id_tipo_comida ?? '') == $tipo->id_tipo_comida ? 'selected' : '' }}>
                             {{ $tipo->nombre }}
                         </option>
                     @endforeach
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Actualizar Restaurante</button>
+            <a href="{{ route('restaurantes.index') }}" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
 @endsection

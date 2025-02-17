@@ -9,6 +9,7 @@ class TipoComida extends Model
 {
     use HasFactory;
     protected $table = 'tipo_comida';
+    protected $primaryKey = 'id_tipo_comida';
     // Definir las columnas que pueden ser llenadas de forma masiva
     protected $fillable = [
         'nombre',
@@ -22,6 +23,11 @@ class TipoComida extends Model
      */
     public function restaurantes()
     {
-        return $this->belongsToMany(Restaurante::class, 'tipo_comida_restaurante');
+        return $this->belongsToMany(
+            Restaurante::class,
+            'tipo_comida_restaurante',
+            'id_tipo_comida',
+            'id_restaurante'
+        );
     }
 }
