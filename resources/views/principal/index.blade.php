@@ -10,8 +10,22 @@
         <div id="divfiltros">
             <form action="">
                 <input type="text" placeholder="Que buscas?">
-                <input type="text" placeholder="Tipo de comida">
-                <input type="text" placeholder="Buscar por barrio">
+                <select name="tipo_comida" class="form-select">
+                    <option value="" selected>Tipo de comida</option>
+                    <option value="italiana">Italiana</option>
+                    <option value="japonesa">Japonesa</option>
+                    <option value="mexicana">Mexicana</option>
+                    <option value="mediterranea">Mediterránea</option>
+                    <option value="china">China</option>
+                </select>
+                <select name="barrio" class="form-select">
+                    <option value="" selected>Buscar por barrio</option>
+                    <option value="gracia">Gràcia</option>
+                    <option value="eixample">Eixample</option>
+                    <option value="sants">Sants</option>
+                    <option value="gotico">Gótico</option>
+                    <option value="born">Born</option>
+                </select>
                 <button type="submit" class="btn btn-danger">Buscar</button>
             </form>
         </div>
