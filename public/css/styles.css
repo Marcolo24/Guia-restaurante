@@ -71,3 +71,25 @@ header {
     padding-right: 20px;
     padding-left: 20px;
 }
+
+.alert {
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 0.25rem;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.alert-dismissible {
+    padding-right: 4rem;
+}
+
+.btn-close {
+    position: absolute;
+    right: 0;
+    padding: 1.25rem 1rem;
+}
