@@ -63,11 +63,32 @@ header {
 }
 
 #divfiltros * {
-    font-size: 20px;
+    font-size: 25px;
 }
 
 .btn-danger {
     border-radius: 30px;
     padding-right: 20px;
     padding-left: 20px;
+}
+
+#divfiltros form {
+    all: unset;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+#divfiltros form input, #divfiltros form select {
+    border:none
+}
+
+#divfiltros form input {
+    width: 80%;
+}
+
+.imgfiltro {
+    height: 30px;
 }
