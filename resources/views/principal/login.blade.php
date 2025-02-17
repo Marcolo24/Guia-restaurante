@@ -44,7 +44,6 @@
                     
                             <div class="d-grid gap-2">
                                 <button type="submit" class="btn btn-primary mb-2">Iniciar Sesión</button>
-                                <a href="{{ route('restaurantes.index') }}">Registrarse</a>
                             </div>
                         </form>
                         
