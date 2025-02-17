@@ -82,7 +82,6 @@
     </div>
 </div>
 
-
     @push('scripts')
     <script>
     document.querySelectorAll('.rating-form input[type="radio"]').forEach(input => {

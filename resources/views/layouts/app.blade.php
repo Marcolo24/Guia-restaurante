@@ -17,16 +17,28 @@
         <h1 id="titulo-principal">BCNFoodieGuide</h1>
     </div>
     <div>
-    {{-- Hay que colocar los links de las rutas --}}
-    <a href="">
-        <img class="img-header" src="{{ asset('images/lista.png') }}" alt="">
-    </a>
+    @auth
+        @if(Auth::user()->id_rol === 1)
+        <a href="{{ route('restaurantes.index') }}">
+            <img class="img-header" src="{{ asset('images/lista.png') }}" alt="Panel de administración">
+        </a>
+        @endif
+    @endauth
     <a href="">
         <img class="img-header" src="{{ asset('images/lupa.png') }}" alt="">
     </a>
-    <a href="">
-    <img class="img-header" src="{{ asset('images/sesion.png') }}" alt="">
-    </a>
+    @guest
+        <a href="{{ route('login') }}">
+            <img class="img-header" src="{{ asset('images/sesion.png') }}" alt="Iniciar sesión">
+        </a>
+    @else
+        <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+            @csrf
+            <button type="submit" style="background: none; border: none; padding: 0;">
+                <img class="img-header" src="{{ asset('images/sesion.png') }}" alt="Cerrar sesión">
+            </button>
+        </form>
+    @endguest
     </div>
 </header>
 <body>
