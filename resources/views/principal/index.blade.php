@@ -68,28 +68,6 @@
         </div>
     </div>
 
-    <style>
-    .star-rating {
-        direction: rtl;
-        display: inline-block;
-    }
-    .star-rating input[type="radio"] {
-        display: none;
-    }
-    .star-rating label {
-        color: #bbb;
-        font-size: 1.5rem;
-        padding: 0;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-    .star-rating label:hover,
-    .star-rating label:hover ~ label,
-    .star-rating input[type="radio"]:checked ~ label {
-        color: #f8ce0b;
-    }
-    </style>
-
     @push('scripts')
     <script>
     document.querySelectorAll('.rating-form input[type="radio"]').forEach(input => {
