@@ -14,10 +14,12 @@ class BarrioSeeder extends Seeder
     public function run(): void
     {
         $barrios = [
-            'Gótico', 'El Born', 'El Raval', 'Barceloneta', 'Eixample', 'Gràcia', 
-            'Poblenou', 'Sants', 'Les Corts', 'Sarrià-Sant Gervasi', 'Horta-Guinardó', 
-            'Sant Andreu', 'El Clot', 'Poble-sec', 'Vila Olímpica', 'Sant Antoni', 
-            'Pedralbes', 'Dreta de l’Eixample', 'Esquerra de l’Eixample', 'Fort Pienc'
+            'Gótico', 'El Born', 'El Raval', 'Barceloneta', 'Eixample', 
+            'Gràcia', 'Poblenou', 'Sants', 'Les Corts', 'Sarrià-Sant Gervasi', 
+            'Horta-Guinardó', 'Sant Andreu', 'El Clot', 'Poble-sec', 
+            'Vila Olímpica', 'Sant Antoni', 'Pedralbes', 'Dreta de l’Eixample', 
+            'Esquerra de l’Eixample', 'Fort Pienc', 'Sants-Montjuïc', 
+            'Ciutat Vella'
         ];
 
         foreach ($barrios as $barrio) {

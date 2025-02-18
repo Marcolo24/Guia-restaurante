@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB; // Importar DB para transacciones
+use App\Models\Barrio; // Importa el modelo Barrio
+use App\Models\Valoracion;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class RestauranteController extends Controller
 {
@@ -175,5 +181,75 @@ class RestauranteController extends Controller
 
         return redirect()->route('restaurantes.index')
             ->with('success', 'Restaurante eliminado con éxito.');
+    }
+
+    public function show($id)
+    {
+        $restaurante = Restaurante::with(['barrio', 'tiposComida', 'valoraciones'])
+            ->findOrFail($id);
+        
+        // Calcular la valoración media
+        $valoracionMedia = $restaurante->valoraciones->avg('puntuacion') ?? 0;
+        
+        return view('principal.info', compact('restaurante', 'valoracionMedia'));
+    }
+
+    public function valorar(Request $request, $id)
+    {
+        try {
+            $request->validate([
+                'puntuacion' => 'required|numeric|min:0|max:5',
+                'comentario' => 'nullable|string|max:255'
+            ]);
+
+            // Debug
+            Log::info('Datos recibidos:', [
+                'puntuacion' => $request->puntuacion,
+                'comentario' => $request->comentario,
+                'id_restaurante' => $id,
+                'id_usuario' => Auth::id()
+            ]);
+
+            $restaurante = Restaurante::findOrFail($id);
+            
+            // Convertir la puntuación a float
+            $puntuacion = (float) $request->puntuacion;
+            
+            $valoracion = Valoracion::updateOrCreate(
+                [
+                    'id_usuario' => Auth::id(),
+                    'id_restaurante' => $id
+                ],
+                [
+                    'puntuacion' => $puntuacion,
+                    'comentario' => $request->comentario
+                ]
+            );
+
+            // Recalcular la valoración media
+            $valoracionMedia = $restaurante->valoraciones()->avg('puntuacion');
+            $totalValoraciones = $restaurante->valoraciones()->count();
+
+            return response()->json([
+                'success' => true,
+                'valoracionMedia' => round($valoracionMedia, 1),
+                'totalValoraciones' => $totalValoraciones,
+                'debug' => [
+                    'puntuacion_enviada' => $puntuacion,
+                    'valoracion_id' => $valoracion->id
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Error al guardar la valoración:', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al guardar la valoración: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

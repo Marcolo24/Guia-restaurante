@@ -6,12 +6,27 @@
     <title>Registro</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .error-message {
+            color: red;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        input.error {
+            border-color: red !important;
+        }
+    </style>
 </head>
-<body>
-    <div class="container">
-        <div class="row justify-content-center mt-5">
-            <div class="col-md-6">
-                <div class="card">
+<body class="bg-black">
+    <div class="container-fluid d-flex justify-content-center align-items-center vh-100">
+        <div class="row w-75">
+            <!-- Columna de la imagen -->
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
+                <img src="{{ asset('images/bcnfoodieguide.jpg') }}" alt="BCN Foodie Guide" class="img-fluid object-fit-cover h-75">
+            </div>
+            <!-- Columna del formulario -->
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
+                <div class="card w-75">
                     <div class="card-header text-center">
                         <h4>Registro</h4>
                     </div>
@@ -22,7 +37,9 @@
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre</label>
                                 <input type="text" class="form-control @error('nombre') is-invalid @enderror" 
-                                       id="nombre" name="nombre" value="{{ old('nombre') }}" required>
+                                       id="nombre" name="nombre" value="{{ old('nombre') }}" required
+                                       onblur="validateNombre(this)">
+                                <div id="nombreError" class="error-message"></div>
                                 @error('nombre')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -31,7 +48,9 @@
                             <div class="mb-3">
                                 <label for="correo" class="form-label">Correo Electrónico</label>
                                 <input type="email" class="form-control @error('correo') is-invalid @enderror" 
-                                       id="correo" name="correo" value="{{ old('correo') }}" required>
+                                       id="correo" name="correo" value="{{ old('correo') }}" required
+                                       onblur="validateEmail(this)">
+                                <div id="correoError" class="error-message"></div>
                                 @error('correo')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -40,7 +59,9 @@
                             <div class="mb-3">
                                 <label for="contrasena" class="form-label">Contraseña</label>
                                 <input type="password" class="form-control @error('contrasena') is-invalid @enderror" 
-                                       id="contrasena" name="contrasena" required>
+                                       id="contrasena" name="contrasena" required
+                                       onblur="validateContrasena(this)">
+                                <div id="contrasenaError" class="error-message"></div>
                                 @error('contrasena')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -49,7 +70,9 @@
                             <div class="mb-3">
                                 <label for="contrasena_confirmation" class="form-label">Confirmar Contraseña</label>
                                 <input type="password" class="form-control" 
-                                       id="contrasena_confirmation" name="contrasena_confirmation" required>
+                                       id="contrasena_confirmation" name="contrasena_confirmation" required
+                                       onblur="validateConfirmacion(this)">
+                                <div id="confirmacionError" class="error-message"></div>
                             </div>
                     
                             <div class="d-grid gap-2">
@@ -60,6 +83,8 @@
                         <div class="text-center mt-3">
                             <p>¿Ya tienes cuenta? <a href="{{ route('login') }}">Inicia sesión aquí</a></p>
                         </div>
+                        <a href="{{ route('principal.index') }}" class="btn btn-secondary mt-2">Página principal</a>
+
                     </div>
                 </div>
             </div>
@@ -68,5 +93,67 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Scripts -->
+    <script>
+        function validateNombre(input) {
+            const errorDiv = document.getElementById('nombreError');
+            if (input.value.trim() === '') {
+                input.classList.add('error');
+                errorDiv.textContent = 'El nombre es requerido';
+            } else if (input.value.length < 3) {
+                input.classList.add('error');
+                errorDiv.textContent = 'El nombre debe tener al menos 3 caracteres';
+            } else {
+                input.classList.remove('error');
+                errorDiv.textContent = '';
+            }
+        }
+
+        function validateEmail(input) {
+            const errorDiv = document.getElementById('correoError');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (input.value.trim() === '') {
+                input.classList.add('error');
+                errorDiv.textContent = 'El correo electrónico es requerido';
+            } else if (!emailRegex.test(input.value)) {
+                input.classList.add('error');
+                errorDiv.textContent = 'Por favor, introduce un correo electrónico válido';
+            } else {
+                input.classList.remove('error');
+                errorDiv.textContent = '';
+            }
+        }
+
+        function validateContrasena(input) {
+            const errorDiv = document.getElementById('contrasenaError');
+            if (input.value.trim() === '') {
+                input.classList.add('error');
+                errorDiv.textContent = 'La contraseña es requerida';
+            } else if (input.value.length < 6) {
+                input.classList.add('error');
+                errorDiv.textContent = 'La contraseña debe tener al menos 6 caracteres';
+            } else {
+                input.classList.remove('error');
+                errorDiv.textContent = '';
+            }
+        }
+
+        function validateConfirmacion(input) {
+            const errorDiv = document.getElementById('confirmacionError');
+            const contrasena = document.getElementById('contrasena').value;
+            
+            if (input.value.trim() === '') {
+                input.classList.add('error');
+                errorDiv.textContent = 'La confirmación de contraseña es requerida';
+            } else if (input.value !== contrasena) {
+                input.classList.add('error');
+                errorDiv.textContent = 'Las contraseñas no coinciden';
+            } else {
+                input.classList.remove('error');
+                errorDiv.textContent = '';
+            }
+        }
+    </script>
 </body>
 </html> 

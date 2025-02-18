@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1>Lista de Restaurantes</h1>
+            <h1 class="mt-5 color subtitulo">Lista de Restaurantes</h1>
             <div>
                 <a href="{{ route('principal.index') }}" class="btn btn-secondary">Volver a Principal</a>
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
@@ -21,9 +21,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
-
-        <table class="table mt-3">
-            <thead>
+        <table class="table mt-3 text-center align-middle crud">
+            <thead class="align-middle">
                 <tr>
                     <th>Nombre</th>
                     <th>Descripción</th>
@@ -48,14 +47,14 @@
                         <td>{{ $restaurante->barrio->barrio ?? 'Sin barrio' }}</td>
                         <td>{{ $restaurante->tiposComida->first()->nombre ?? 'Sin especificar' }}</td>
                         <td>
-                            <div class="btn-group" role="group">
+                            <div class="btn-group-vertical" role="group">
                                 <a href="{{ route('restaurantes.edit', $restaurante->id_restaurante) }}" 
-                                   class="btn btn-warning btn-sm">Editar</a>
+                                   class="btn btn-warning btn-sm mb-1">Editar</a>
                                 
                                 <form action="{{ route('restaurantes.destroy', $restaurante->id_restaurante) }}" 
                                       method="POST" 
                                       style="display:inline;"
-                                      onsubmit="return confirm('¿Estás seguro de que deseas eliminar este restaurante?');">
+                                      onsubmit="confirmarEliminacion(event)">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
@@ -67,4 +66,27 @@
             </tbody>
         </table>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        function confirmarEliminacion(event) {
+            event.preventDefault();
+            
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esta acción!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    event.target.submit();
+                }
+            });
+        }
+    </script>
 @endsection

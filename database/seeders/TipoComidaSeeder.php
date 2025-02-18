@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,16 +13,18 @@ class TipoComidaSeeder extends Seeder
     public function run(): void
     {
         $tiposComida = [
-            'Vegana', 'Vegetariana', 'Italiana', 'Mexicana', 'Japonesa', 'China', 
-            'India', 'Tailandesa', 'Mediterránea', 'Francesa', 'Griega', 'Turca', 
-            'Libanesa', 'Americana', 'Argentina', 'Peruana', 'Coreana', 'Vietnamita', 
-            'Africana', 'Brasileña', 'Española', 'Alemana', 'Marroquí', 'Indonesia', 
-            'Filipina', 'Caribeña', 'Rusa', 'Etíope', 'Árabe', 'Kosher'
+            'Española', 'Italiana', 'Vegetariana', 'Mexicana', 'Japonesa',
+            'Francesa', 'China', 'India', 'Tailandesa', 'Mediterránea',
+            'Griega', 'Turca', 'Libanesa', 'Americana', 'Argentina',
+            'Peruana', 'Coreana', 'Vietnamita', 'Africana', 'Brasileña',
+            'Alemana', 'Marroquí', 'Indonesia', 'Filipina', 'Caribeña',
+            'Rusa', 'Etíope', 'Árabe', 'Kosher', 'Hawaiana', 'Cubana',
+            'Portuguesa', 'Polaca', 'Sueca', 'Noruega', 'Danesa'
         ];
 
         foreach ($tiposComida as $tipo) {
             DB::table('tipo_comida')->insert([
-                'nombre' => $tipo
+                'nombre' => 'Comida ' . $tipo
             ]);
         }
     }

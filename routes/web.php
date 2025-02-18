@@ -3,8 +3,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RestauranteController;
 use App\Http\Controllers\AuthController;
 
-// Ruta principal (página de inicio pública)
+// Rutas para la sección principal (pública)
 Route::get('/', [RestauranteController::class, 'principal'])->name('principal.index');
+Route::get('/principal/{id}', [RestauranteController::class, 'show'])->name('principal.show');
+Route::post('/principal/{id}/valorar', [RestauranteController::class, 'valorar'])
+    ->name('principal.valorar')
+    ->middleware('auth');
 
 // Rutas para la gestión de restaurantes (admin)
 Route::middleware(['web', 'auth', \App\Http\Middleware\AdminMiddleware::class])->group(function () {

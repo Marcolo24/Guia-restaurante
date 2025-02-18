@@ -44,4 +44,9 @@ class Restaurante extends Model
             'id_tipo_comida'
         );
     }
+
+    public function valoraciones()
+    {
+        return $this->hasMany(Valoracion::class, 'id_restaurante');
+    }
 }
