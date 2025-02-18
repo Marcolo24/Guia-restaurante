@@ -5,6 +5,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h1 class="mt-5 color subtitulo">Lista de Restaurantes</h1>
             <div>
+                <a href="{{ route('usuarios.index') }}" class="btn btn-info">Gestionar Usuarios</a>
                 <a href="{{ route('principal.index') }}" class="btn btn-secondary">Volver a Principal</a>
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
