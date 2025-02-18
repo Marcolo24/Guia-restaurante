@@ -41,4 +41,14 @@
         @yield('content') <!-- Aquí se inyectará el contenido de las vistas hijas -->
     </main>
 </body>
+<footer>
+    <div class="d-flex flex-column justify-content-center align-items-center" style="height: 100%;">
+        <div>
+            <p class="subtitulo">BCNFoodieGuide<sup>®</sup></p>
+        </div>
+        <div>
+            <img class="img-footer" src="{{ asset('images/bcnfoodieguide.jpg') }}" alt="Imagen Principal" >
+        </div>
+    </div>
+</footer>
 </html>
