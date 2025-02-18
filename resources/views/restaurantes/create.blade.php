@@ -1,10 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h1>Crear Restaurante</h1>
-
-    <form action="{{ route('restaurantes.store') }}" method="POST" enctype="multipart/form-data">
+<div class="container mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="mt-5 color subtitulo">Crear Restaurante</h1>
+        <div>
+            <a href="{{ route('restaurantes.index') }}" class="btn btn-secondary">Volver</a>
+        </div>
+    </div>
+    <form class="size" action="{{ route('restaurantes.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         
         <div class="mb-3">
@@ -66,7 +70,7 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Crear Restaurante</button>
+        <button type="submit" class="btn btn-primary mt-2">Crear Restaurante</button>
     </form>
 </div>
 @endsection

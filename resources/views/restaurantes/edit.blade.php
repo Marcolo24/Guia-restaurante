@@ -1,9 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <h1>Editar Restaurante</h1>
-        <form action="{{ route('restaurantes.update', $restaurante->id_restaurante) }}" method="POST" enctype="multipart/form-data">
+    <div class="container mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="mt-5 color subtitulo">Editar Restaurante</h1>
+            <div>
+                <a href="{{ route('restaurantes.index') }}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </div>
+        <form class="size" action="{{ route('restaurantes.update', $restaurante->id_restaurante) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="mb-3">
@@ -59,8 +64,7 @@
                     @endforeach
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Actualizar Restaurante</button>
-            <a href="{{ route('restaurantes.index') }}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-primary mt-2">Actualizar Restaurante</button>
         </form>
     </div>
 @endsection
