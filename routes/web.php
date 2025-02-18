@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RestauranteController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 // Rutas para la sección principal (pública)
 Route::get('/', [RestauranteController::class, 'principal'])->name('principal.index');
@@ -19,6 +20,14 @@ Route::middleware(['web', 'auth', \App\Http\Middleware\AdminMiddleware::class])-
         Route::get('/restaurantes/{id}/edit', [RestauranteController::class, 'edit'])->name('restaurantes.edit');
         Route::put('/restaurantes/{id}', [RestauranteController::class, 'update'])->name('restaurantes.update');
         Route::delete('/restaurantes/{id}', [RestauranteController::class, 'destroy'])->name('restaurantes.destroy');
+        
+        // Nuevas rutas para usuarios
+        Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios.index');
+        Route::get('/usuarios/create', [UserController::class, 'create'])->name('usuarios.create');
+        Route::post('/usuarios', [UserController::class, 'store'])->name('usuarios.store');
+        Route::get('/usuarios/{id}/edit', [UserController::class, 'edit'])->name('usuarios.edit');
+        Route::put('/usuarios/{id}', [UserController::class, 'update'])->name('usuarios.update');
+        Route::delete('/usuarios/{id}', [UserController::class, 'destroy'])->name('usuarios.destroy');
     });
 });
 
