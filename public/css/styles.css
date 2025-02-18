@@ -12,7 +12,6 @@ body {
     margin-right: 10px;
 }
 
-/* Nuevo estilo para la lupa */
 .imgfiltro {
     height: 50px;
     width: 50px;
@@ -46,13 +45,15 @@ header {
 
 #titulo-principal {
     color: white;
+    margin:0
 }
 
-#titulo {
+.titulo {
     font-size: 100px;
     padding-top: 5vh;
 }
-#subtitulo {
+
+.subtitulo {
     font-size: 60px;
     font-weight: 100;
 }
@@ -74,17 +75,23 @@ header {
     font-size: 25px;
 }
 
-.btn-danger {
+.btn {
     border-radius: 30px;
     padding-right: 20px;
     padding-left: 20px;
+    font-size: 20px;
 }
 
-.btn-secondary {
-    border-radius: 30px;
-    padding-right: 20px;
-    padding-left: 20px;
-    margin-left: 10px;
+.btn-warning {
+    border-radius: 30px !important;
+}
+
+.btn-primary {
+    border-radius: 5px !important;
+}
+
+.btn-danger {
+    background-color: #E81456;
 }
 
 .alert {
@@ -139,4 +146,17 @@ header {
     padding: 15px;
     border-radius: 5px;
     margin: 20px 0;
+}
+
+.card-img-top {
+   height: 400px;
+   object-fit: cover;
+}
+
+.crud *{
+    font-size: 20px;
+}
+
+.color {
+    color: #E81456;
 }

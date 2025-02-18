@@ -14,7 +14,7 @@
 </head>
 <header>
     <div>
-        <h1 id="titulo-principal">BCNFoodieGuide</h1>
+        <h1 id="titulo-principal">BCNFoodieGuide<sup>®</sup></h1>
     </div>
     <div>
         @auth

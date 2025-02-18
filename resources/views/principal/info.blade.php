@@ -9,7 +9,7 @@
             <img src="{{ asset('storage/' . ($restaurante->imagen ?? 'restaurantes/default.jpg')) }}" 
                  class="img-fluid rounded" 
                  alt="{{ $restaurante->nombre }}"
-                 style="max-height: 400px; width: 100%; object-fit: cover;">
+                 style="max-height: 500px; width: 100%; object-fit: cover;">
         </div>
         <div class="col-md-4">
             <h1>{{ $restaurante->nombre }}</h1>
