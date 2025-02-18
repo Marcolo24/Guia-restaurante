@@ -28,6 +28,7 @@
             @if($restaurante->web)
                 <p><strong>Web:</strong> <a href="{{ $restaurante->web }}" target="_blank">{{ $restaurante->web }}</a></p>
             @endif
+            <a href="{{ route('principal.index') }}" class="btn btn-secondary mt-3">Volver al listado</a>
         </div>
     </div>
 
@@ -55,25 +56,30 @@
                     </form>
                 </div>
                 <div class="comentarios mt-4">
-                    <h4>Comentarios de usuarios</h4>
-                    @if($restaurante->valoraciones->whereNotNull('comentario')->count() > 0)
-                        @foreach($restaurante->valoraciones->whereNotNull('comentario') as $valoracion)
-                            <div class="comentario border-bottom py-3">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <strong>{{ $valoracion->usuario->nombre ?? 'Usuario eliminado' }}</strong>
-                                        <div class="stars-display" data-rating="{{ $valoracion->puntuacion }}">
-                                            <span class="ms-2">({{ $valoracion->puntuacion }} estrellas)</span>
+                    <div class="d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#comentariosCollapse" role="button" aria-expanded="false" aria-controls="comentariosCollapse" style="cursor: pointer;">
+                        <h4 class="mb-0">Comentarios de usuarios</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="collapse show" id="comentariosCollapse">
+                        @if($restaurante->valoraciones->whereNotNull('comentario')->count() > 0)
+                            @foreach($restaurante->valoraciones->whereNotNull('comentario') as $valoracion)
+                                <div class="comentario border-bottom py-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>{{ $valoracion->usuario->nombre ?? 'Usuario eliminado' }}</strong>
+                                            <div class="stars-display" data-rating="{{ $valoracion->puntuacion }}">
+                                                <span class="ms-2">({{ $valoracion->puntuacion }} estrellas)</span>
+                                            </div>
                                         </div>
+                                        <small class="text-muted">{{ $valoracion->created_at->format('d/m/Y') }}</small>
                                     </div>
-                                    <small class="text-muted">{{ $valoracion->created_at->format('d/m/Y') }}</small>
+                                    <p class="mt-2 mb-0">{{ $valoracion->comentario }}</p>
                                 </div>
-                                <p class="mt-2 mb-0">{{ $valoracion->comentario }}</p>
-                            </div>
-                        @endforeach
-                    @else
-                        <p class="text-muted">No hay comentarios todavía.</p>
-                    @endif
+                            @endforeach
+                        @else
+                            <p class="text-muted">No hay comentarios todavía.</p>
+                        @endif
+                    </div>
                 </div>
             @else
                 <div class="alert alert-info">
