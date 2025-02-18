@@ -8,12 +8,8 @@ use App\Models\Barrio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB; // Importar DB para transacciones
-use App\Models\Barrio; // Importa el modelo Barrio
+use Illuminate\Support\Facades\DB; 
 use App\Models\Valoracion;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class RestauranteController extends Controller
