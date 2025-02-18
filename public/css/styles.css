@@ -7,6 +7,10 @@ body {
     background-color: #f0f0f0;
 }
 
+main {
+    min-height: 90vh !important;
+}
+
 .img-header {
     height: 50px;
     margin-right: 10px;
@@ -35,7 +39,7 @@ body {
 }
 
 header {
-    height: 80px;
+    min-height: 10vh;
     background-color: black;
     display: flex;
     justify-content: space-between;
@@ -163,4 +167,14 @@ header {
 
 .size {
     font-size: 20px;
+}
+
+footer {
+    height: 500px;
+    background-color: black;
+    color:white;
+}
+
+.img-footer {
+    height: 350px;
 }
