@@ -53,7 +53,7 @@
 
             @foreach ($restaurantes as $restaurante)
                 <div class="col">
-                    <a href="{{ route('restaurantes.show', $restaurante->id_restaurante) }}" class="text-decoration-none text-dark">
+                    <a href="{{ route('principal.show', $restaurante->id_restaurante) }}" class="text-decoration-none text-dark">
                         <div class="card h-100 hover-shadow">
                             <img src="{{ asset('storage/' . ($restaurante->imagen ?? 'restaurantes/default.jpg')) }}" 
                                  class="card-img-top" 

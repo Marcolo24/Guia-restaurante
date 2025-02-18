@@ -36,7 +36,7 @@
             <h3>Valorar este restaurante</h3>
             @auth
                 <div class="rating-form-container">
-                    <form id="rating-form" action="{{ route('restaurantes.valorar', $restaurante->id_restaurante) }}" method="POST">
+                    <form id="rating-form" action="{{ route('principal.valorar', $restaurante->id_restaurante) }}" method="POST">
                         @csrf
                         <div class="rating mb-3">
                             <input type="hidden" name="puntuacion" id="rating-value" value="0">
@@ -47,9 +47,6 @@
                                 <button type="button" class="star" data-value="4">★</button>
                                 <button type="button" class="star" data-value="5">★</button>
                             </div>
-                            <button type="button" class="btn btn-sm btn-outline-secondary mt-2" id="clear-rating">
-                                Limpiar valoración
-                            </button>
                         </div>
                         <div class="form-group mb-3">
                             <textarea name="comentario" class="form-control" placeholder="Escribe tu opinión (opcional)"></textarea>
@@ -67,11 +64,6 @@
 </div>
 
 <style>
-.rating {
-    display: inline-block;
-    margin-bottom: 20px;
-}
-
 .stars {
     display: flex;
     gap: 5px;
@@ -87,18 +79,12 @@
     transition: color 0.2s;
 }
 
-.star:hover,
-.star.active {
+.star.selected {
     color: #ffd700;
 }
 
-.star.active ~ .star {
+.star.selected ~ .star {
     color: #ffd700;
-}
-
-#clear-rating {
-    font-size: 12px;
-    padding: 2px 8px;
 }
 </style>
 
@@ -108,47 +94,41 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('rating-form');
     const stars = document.querySelectorAll('.star');
     const ratingInput = document.getElementById('rating-value');
-    const clearButton = document.getElementById('clear-rating');
-    let selectedRating = 0;
-
-    function updateStars(value) {
-        selectedRating = value;
-        ratingInput.value = value;
-        
-        stars.forEach(star => {
-            const starValue = parseInt(star.dataset.value);
-            if (starValue <= value) {
-                star.classList.add('active');
-            } else {
-                star.classList.remove('active');
-            }
-        });
-
-        console.log('Puntuación seleccionada:', value);
-    }
-
-    // Limpiar valoración
-    clearButton.addEventListener('click', function() {
-        updateStars(0);
-    });
 
     stars.forEach(star => {
-        star.addEventListener('click', function() {
+        star.addEventListener('click', function(e) {
+            e.preventDefault();
             const value = parseInt(this.dataset.value);
-            updateStars(value);
+            
+            // Limpiar todas las estrellas
+            stars.forEach(s => s.classList.remove('selected'));
+            
+            // Marcar las estrellas hasta la seleccionada
+            for(let i = 0; i < stars.length; i++) {
+                if(parseInt(stars[i].dataset.value) <= value) {
+                    stars[i].classList.add('selected');
+                }
+            }
+            
+            // Actualizar el valor del input
+            ratingInput.value = value;
+            console.log('Valoración seleccionada:', value);
         });
     });
 
     form.addEventListener('submit', function(e) {
         e.preventDefault();
+        
+        if (ratingInput.value === '0') {
+            alert('Por favor, selecciona una valoración');
+            return;
+        }
 
         const formData = {
-            puntuacion: selectedRating, // Ahora puede ser 0
+            puntuacion: parseInt(ratingInput.value),
             comentario: this.querySelector('textarea[name="comentario"]').value,
             _token: document.querySelector('meta[name="csrf-token"]').content
         };
-
-        console.log('Enviando datos:', formData); // Debug
 
         fetch(this.action, {
             method: 'POST',
@@ -162,25 +142,10 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // Actualizar la valoración media mostrada
-                const ratingValue = document.querySelector('.rating-value');
-                const ratingCount = document.querySelector('.current-rating small');
-                const starsForeground = document.querySelector('.stars-foreground');
-                
-                if (ratingValue) {
-                    ratingValue.textContent = `${data.valoracionMedia.toFixed(1)}/5`;
-                }
-                
-                if (ratingCount) {
-                    ratingCount.textContent = `(${data.totalValoraciones} valoraciones)`;
-                }
-                
-                if (starsForeground) {
-                    starsForeground.style.width = `${(data.valoracionMedia/5)*100}%`;
-                }
-                
                 alert('Valoración guardada correctamente');
-                this.querySelector('textarea[name="comentario"]').value = '';
+                location.reload();
+            } else {
+                alert(data.message || 'Error al guardar la valoración');
             }
         })
         .catch(error => {
