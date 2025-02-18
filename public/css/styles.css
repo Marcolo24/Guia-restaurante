@@ -178,3 +178,13 @@ footer {
 .img-footer {
     height: 350px;
 }
+
+.flecha-carousel-izquierda {
+    width: 50px;
+    margin-left: 50px;
+}
+
+.flecha-carousel-derecha {
+    width: 50px;
+    margin-right: 50px;
+}

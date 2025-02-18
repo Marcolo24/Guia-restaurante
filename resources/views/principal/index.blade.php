@@ -40,8 +40,7 @@
             </form>
         </div>
     </div>
-    
-<div>
+
         <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center m-3">
             @if(isset($mensaje))
                 <div class="col-12 text-center">
@@ -59,7 +58,7 @@
                                  class="card-img-top" 
                                  alt="{{ $restaurante->nombre }}">
                             <div class="card-body">
-                                <h5 class="card-title">{{ $restaurante->nombre }}</h5>
+                                <h5 class="card-title"><strong>{{ $restaurante->nombre }}</strong></h5>
                                 <p class="card-text">
                                     <strong>Tipo de comida:</strong> 
                                     {{ $restaurante->tiposComida->first()->nombre ?? 'Sin especificar' }}
@@ -81,13 +80,76 @@
     </div>
 </div>
 
-    @push('scripts')
-    <script>
-    document.querySelectorAll('.rating-form input[type="radio"]').forEach(input => {
-        input.addEventListener('change', function() {
-            this.closest('form').submit();
-        });
+<div id="carouselExampleCaptions" class="carousel slide carousel-dark">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="row justify-content-center">
+                @for ($i = 1; $i <= 5; $i++)
+                <div class="col-2">
+                    <div class="card">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card {{ $i }}</h5>
+                            <p class="card-text">Contenido representativo para la tarjeta {{ $i }}.</p>
+                        </div>
+                    </div>
+                </div>
+                @endfor
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="row justify-content-center">
+                @for ($i = 6; $i <= 10; $i++)
+                <div class="col-2">
+                    <div class="card">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card {{ $i }}</h5>
+                            <p class="card-text">Contenido representativo para la tarjeta {{ $i }}.</p>
+                        </div>
+                    </div>
+                </div>
+                @endfor
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="row justify-content-center">
+                @for ($i = 11; $i <= 15; $i++)
+                <div class="col-2">
+                    <div class="card">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card {{ $i }}</h5>
+                            <p class="card-text">Contenido representativo para la tarjeta {{ $i }}.</p>
+                        </div>
+                    </div>
+                </div>
+                @endfor
+            </div>
+        </div>
+    </div>
+    <div class="carousel-indicators" style="position: relative; z-index: 1; margin-top: 10px;">
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <button class="carousel-control-prev flecha-carousel-izquierda" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next flecha-carousel-derecha" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+@push('scripts')
+<script>
+document.querySelectorAll('.rating-form input[type="radio"]').forEach(input => {
+    input.addEventListener('change', function() {
+        this.closest('form').submit();
     });
+});
     </script>
     @endpush
 @endsection
