@@ -201,28 +201,36 @@ class RestauranteController extends Controller
 
             $restaurante = Restaurante::findOrFail($id);
             
+            // Convertir la puntuación a float
+            $puntuacion = (float) $request->puntuacion;
+            
             $valoracion = Valoracion::updateOrCreate(
                 [
                     'id_usuario' => Auth::id(),
                     'id_restaurante' => $id
                 ],
                 [
-                    'puntuacion' => $request->puntuacion,
+                    'puntuacion' => $puntuacion,
                     'comentario' => $request->comentario
                 ]
             );
 
+            // Recalcular la valoración media
             $valoracionMedia = $restaurante->valoraciones()->avg('puntuacion');
             $totalValoraciones = $restaurante->valoraciones()->count();
 
             return response()->json([
                 'success' => true,
                 'valoracionMedia' => round($valoracionMedia, 1),
-                'totalValoraciones' => $totalValoraciones
+                'totalValoraciones' => $totalValoraciones,
+                'debug' => [
+                    'puntuacion_enviada' => $puntuacion,
+                    'valoracion_id' => $valoracion->id
+                ]
             ]);
 
         } catch (\Exception $e) {
-            Log::info('Error al guardar la valoración:', [
+            Log::error('Error al guardar la valoración:', [
                 'message' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);

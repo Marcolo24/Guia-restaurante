@@ -16,7 +16,7 @@ class Valoracion extends Model
     ];
 
     protected $casts = [
-        'puntuacion' => 'decimal:1'
+        'puntuacion' => 'float'
     ];
 
     // Desactivar timestamps si tu tabla no los tiene
