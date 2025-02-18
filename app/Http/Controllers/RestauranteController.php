@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\TipoComida;
 use App\Models\Restaurante;
-use App\Models\Barrio; // Importa el modelo Barrio
+use App\Models\Barrio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB; // Importar DB para transacciones
 
 class RestauranteController extends Controller
 {
@@ -82,24 +83,26 @@ class RestauranteController extends Controller
             'id_barrio' => 'required|exists:barrio,id_barrio',
         ]);
 
-        $restaurante = new Restaurante();
-        $restaurante->nombre = $request->nombre;
-        $restaurante->descripcion = $request->descripcion;
-        $restaurante->precio_medio = $request->precio_medio;
-        $restaurante->direccion = $request->direccion;
-        $restaurante->telefono = $request->telefono;
-        $restaurante->web = $request->web;
-        $restaurante->id_barrio = $request->id_barrio;
-        
-        if ($request->hasFile('imagen')) {
-            $path = $request->imagen->store('restaurantes_fotos', 'public');
-            $restaurante->imagen = $path;
-        }
-        
-        $restaurante->save();
+        DB::transaction(function () use ($request) {
+            $restaurante = new Restaurante();
+            $restaurante->nombre = $request->nombre;
+            $restaurante->descripcion = $request->descripcion;
+            $restaurante->precio_medio = $request->precio_medio;
+            $restaurante->direccion = $request->direccion;
+            $restaurante->telefono = $request->telefono;
+            $restaurante->web = $request->web;
+            $restaurante->id_barrio = $request->id_barrio;
+            
+            if ($request->hasFile('imagen')) {
+                $path = $request->imagen->store('restaurantes_fotos', 'public');
+                $restaurante->imagen = $path;
+            }
+            
+            $restaurante->save();
 
-        // Asociar tipo de comida al restaurante
-        $restaurante->tiposComida()->sync([$request->tipo_comida]);
+            // Asociar tipo de comida al restaurante
+            $restaurante->tiposComida()->sync([$request->tipo_comida]);
+        });
 
         return redirect()->route('restaurantes.index')
             ->with('success', 'Restaurante creado con éxito.');
@@ -128,28 +131,30 @@ class RestauranteController extends Controller
             'id_barrio' => 'required|exists:barrio,id_barrio',
         ]);
 
-        $restaurante = Restaurante::findOrFail($id);
-        $restaurante->nombre = $request->nombre;
-        $restaurante->descripcion = $request->descripcion;
-        $restaurante->precio_medio = $request->precio_medio;
-        $restaurante->direccion = $request->direccion;
-        $restaurante->telefono = $request->telefono;
-        $restaurante->web = $request->web;
-        $restaurante->id_barrio = $request->id_barrio;
+        DB::transaction(function () use ($request, $id) {
+            $restaurante = Restaurante::findOrFail($id);
+            $restaurante->nombre = $request->nombre;
+            $restaurante->descripcion = $request->descripcion;
+            $restaurante->precio_medio = $request->precio_medio;
+            $restaurante->direccion = $request->direccion;
+            $restaurante->telefono = $request->telefono;
+            $restaurante->web = $request->web;
+            $restaurante->id_barrio = $request->id_barrio;
 
-        if ($request->hasFile('imagen')) {
-            // Eliminar la imagen anterior si existe
-            if ($restaurante->imagen) {
-                Storage::disk('public')->delete($restaurante->imagen);
+            if ($request->hasFile('imagen')) {
+                // Eliminar la imagen anterior si existe
+                if ($restaurante->imagen) {
+                    Storage::disk('public')->delete($restaurante->imagen);
+                }
+                $path = $request->imagen->store('restaurantes_fotos', 'public');
+                $restaurante->imagen = $path;
             }
-            $path = $request->imagen->store('restaurantes_fotos', 'public');
-            $restaurante->imagen = $path;
-        }
 
-        $restaurante->save();
+            $restaurante->save();
 
-        // Actualizar tipo de comida
-        $restaurante->tiposComida()->sync([$request->tipo_comida]);
+            // Actualizar tipo de comida
+            $restaurante->tiposComida()->sync([$request->tipo_comida]);
+        });
 
         return redirect()->route('restaurantes.index')
             ->with('success', 'Restaurante actualizado con éxito.');
@@ -157,14 +162,16 @@ class RestauranteController extends Controller
 
     public function destroy($id)
     {
-        $restaurante = Restaurante::findOrFail($id);
-        
-        if ($restaurante->imagen) {
-            Storage::disk('public')->delete($restaurante->imagen);
-        }
-        
-        $restaurante->tiposComida()->detach();
-        $restaurante->delete();
+        DB::transaction(function () use ($id) {
+            $restaurante = Restaurante::findOrFail($id);
+            
+            if ($restaurante->imagen) {
+                Storage::disk('public')->delete($restaurante->imagen);
+            }
+            
+            $restaurante->tiposComida()->detach();
+            $restaurante->delete();
+        });
 
         return redirect()->route('restaurantes.index')
             ->with('success', 'Restaurante eliminado con éxito.');
