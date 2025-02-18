@@ -58,9 +58,12 @@
                 <div class="comentarios mt-4">
                     <div class="d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#comentariosCollapse" role="button" aria-expanded="false" aria-controls="comentariosCollapse" style="cursor: pointer;">
                         <h4 class="mb-0">Comentarios de usuarios</h4>
-                        <i class="fas fa-chevron-down"></i>
+                        <div class="d-flex align-items-center">
+                            <span class="me-2 text-primary">Ver comentarios</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
                     </div>
-                    <div class="collapse show" id="comentariosCollapse">
+                    <div class="collapse" id="comentariosCollapse">
                         @if($restaurante->valoraciones->whereNotNull('comentario')->count() > 0)
                             @foreach($restaurante->valoraciones->whereNotNull('comentario') as $valoracion)
                                 <div class="comentario border-bottom py-3">
