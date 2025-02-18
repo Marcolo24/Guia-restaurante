@@ -31,3 +31,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Nuevas rutas de registro
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+
+Route::get('/principa/{id}', [RestauranteController::class, 'show'])->name('restaurantes.show');
+Route::post('/restaurantes/{id}/valorar', [RestauranteController::class, 'valorar'])->name('restaurantes.valorar')->middleware('auth');

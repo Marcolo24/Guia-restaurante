@@ -53,48 +53,29 @@
 
             @foreach ($restaurantes as $restaurante)
                 <div class="col">
-                    <div class="card h-100">
-                        <img src="{{ asset('storage/' . ($restaurante->imagen ?? 'restaurantes/default.jpg')) }}" 
-                             class="card-img-top" 
-                             alt="{{ $restaurante->nombre }}"
-                             style="height: 200px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $restaurante->nombre }}</h5>
-                            <p class="card-text">
-                                <strong>Tipo de comida:</strong> 
-                                {{ $restaurante->tiposComida->first()->nombre ?? 'Sin especificar' }}
-                            </p>
-                            <p class="card-text">
-                                <strong>Precio medio:</strong> 
-                                {{ $restaurante->precio_medio }}€
-                            </p>
-                            <p class="card-text">
-                                <strong>Barrio:</strong> 
-                                {{ $restaurante->barrio->barrio ?? 'Sin especificar' }}
-                            </p>
-                            
-                            <div class="rating">
-                                <div class="stars">
-                                    @guest
-                                        <div class="text-muted mb-2">
-                                            Inicia sesión para valorar
-                                        </div>
-                                    @else
-                                        {{-- <form class="rating-form" action="{{ route('restaurantes.rate', $restaurante->id_restaurante) }}" method="POST"> --}}
-                                            @csrf
-                                            <div class="star-rating">
-                                                @for ($i = 5; $i >= 1; $i--)
-                                                    <input type="radio" id="star{{ $i }}-{{ $restaurante->id_restaurante }}" 
-                                                           name="rating" value="{{ $i }}">
-                                                    <label for="star{{ $i }}-{{ $restaurante->id_restaurante }}">☆</label>
-                                                @endfor
-                                            </div>
-                                        </form>
-                                    @endguest
-                                </div>
+                    <a href="{{ route('restaurantes.show', $restaurante->id_restaurante) }}" class="text-decoration-none text-dark">
+                        <div class="card h-100 hover-shadow">
+                            <img src="{{ asset('storage/' . ($restaurante->imagen ?? 'restaurantes/default.jpg')) }}" 
+                                 class="card-img-top" 
+                                 alt="{{ $restaurante->nombre }}"
+                                 style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $restaurante->nombre }}</h5>
+                                <p class="card-text">
+                                    <strong>Tipo de comida:</strong> 
+                                    {{ $restaurante->tiposComida->first()->nombre ?? 'Sin especificar' }}
+                                </p>
+                                <p class="card-text">
+                                    <strong>Precio medio:</strong> 
+                                    {{ $restaurante->precio_medio }}€
+                                </p>
+                                <p class="card-text">
+                                    <strong>Barrio:</strong> 
+                                    {{ $restaurante->barrio->barrio ?? 'Sin especificar' }}
+                                </p>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             @endforeach
         </div>
