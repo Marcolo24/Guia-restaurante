@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB; 
 use App\Models\Valoracion;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class RestauranteController extends Controller
 {
@@ -73,17 +74,21 @@ class RestauranteController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'descripcion' => 'required|string|max:255',
-            'precio_medio' => 'required|numeric',
-            'direccion' => 'required|string|max:255',
-            'telefono' => 'required|string|max:20',
-            'web' => 'nullable|string|max:255',
-            'imagen' => 'nullable|image|max:2048',
-            'tipo_comida' => 'required|exists:tipo_comida,id_tipo_comida',
-            'id_barrio' => 'required|exists:barrio,id_barrio',
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|min:3',
+            'descripcion' => 'required|min:10',
+            'precio_medio' => 'required|numeric|min:1',
+            'direccion' => 'required',
+            'telefono' => 'required|regex:/^[0-9]{9}$/',
+            'web' => 'required|url',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
+            'id_barrio' => 'required|exists:barrios,id_barrio',
+            'tipo_comida' => 'required|exists:tipos_comida,id_tipo_comida',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         DB::transaction(function () use ($request) {
             $restaurante = new Restaurante();
