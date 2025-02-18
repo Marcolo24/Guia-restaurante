@@ -42,7 +42,7 @@
     </div>
     
 <div>
-        <div class="row row-cols-1 row-cols-md-4 g-4 justify-content-center w-100 mt-5">
+        <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center w-100 mt-5">
             @if(isset($mensaje))
                 <div class="col-12 text-center">
                     <div class="alert alert-info">
