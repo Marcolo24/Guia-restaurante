@@ -71,7 +71,7 @@
 
 .star {
     font-size: 30px;
-    color: #ddd;
+    color: #ddd; /* Color de las estrellas no seleccionadas */
     background: none;
     border: none;
     cursor: pointer;
@@ -80,18 +80,12 @@
 }
 
 .star.selected {
-    color: #ffd700;
-}
-
-.star.selected ~ .star {
-    color: #ffd700;
+    color: #ffd700; /* Color de las estrellas seleccionadas */
 }
 </style>
 
-@push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('rating-form');
     const stars = document.querySelectorAll('.star');
     const ratingInput = document.getElementById('rating-value');
 
@@ -99,61 +93,22 @@ document.addEventListener('DOMContentLoaded', function() {
         star.addEventListener('click', function(e) {
             e.preventDefault();
             const value = parseInt(this.dataset.value);
-            
+
             // Limpiar todas las estrellas
             stars.forEach(s => s.classList.remove('selected'));
-            
+
             // Marcar las estrellas hasta la seleccionada
-            for(let i = 0; i < stars.length; i++) {
-                if(parseInt(stars[i].dataset.value) <= value) {
+            for (let i = 0; i < stars.length; i++) {
+                if (parseInt(stars[i].dataset.value) <= value) {
                     stars[i].classList.add('selected');
                 }
             }
-            
-            // Actualizar el valor del input
+
+            // Actualizar el valor del input oculto
             ratingInput.value = value;
             console.log('Valoración seleccionada:', value);
         });
     });
-
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        if (ratingInput.value === '0') {
-            alert('Por favor, selecciona una valoración');
-            return;
-        }
-
-        const formData = {
-            puntuacion: parseInt(ratingInput.value),
-            comentario: this.querySelector('textarea[name="comentario"]').value,
-            _token: document.querySelector('meta[name="csrf-token"]').content
-        };
-
-        fetch(this.action, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Valoración guardada correctamente');
-                location.reload();
-            } else {
-                alert(data.message || 'Error al guardar la valoración');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error al guardar la valoración');
-        });
-    });
 });
 </script>
-@endpush
 @endsection 

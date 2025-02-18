@@ -231,15 +231,8 @@ class RestauranteController extends Controller
             $valoracionMedia = $restaurante->valoraciones()->avg('puntuacion');
             $totalValoraciones = $restaurante->valoraciones()->count();
 
-            return response()->json([
-                'success' => true,
-                'valoracionMedia' => round($valoracionMedia, 1),
-                'totalValoraciones' => $totalValoraciones,
-                'debug' => [
-                    'puntuacion_enviada' => $puntuacion,
-                    'valoracion_id' => $valoracion->id
-                ]
-            ]);
+            return redirect()->route('principal.show', ['id' => $id])
+                ->with('success', 'Valoración guardada con éxito. Nueva valoración media: ' . round($valoracionMedia, 1));
 
         } catch (\Exception $e) {
             Log::error('Error al guardar la valoración:', [
@@ -247,10 +240,8 @@ class RestauranteController extends Controller
                 'trace' => $e->getTraceAsString()
             ]);
             
-            return response()->json([
-                'success' => false,
-                'message' => 'Error al guardar la valoración: ' . $e->getMessage()
-            ], 500);
+            return redirect()->route('principal.show', ['id' => $id])
+                ->with('error', 'Error al guardar la valoración: ' . $e->getMessage());
         }
     }
 }
