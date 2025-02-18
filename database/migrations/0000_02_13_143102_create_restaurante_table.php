@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('direccion');
             $table->integer('telefono');
             $table->string('web');
-            $table->binary('imagen');
+            $table->string('imagen')->nullable(); 
             $table->unsignedBigInteger('id_barrio');
             $table->foreign('id_barrio')->references('id_barrio')->on('barrio');
         });
