@@ -22,6 +22,7 @@ class RestauranteSeeder extends Seeder
                 'telefono' => '934567890',
                 'web' => 'www.latascadelbarrio.com',
                 'id_barrio' => 1,
+                'imagen' => 'ruta/a/tu/imagen.jpg'
             ],
             [
                 'nombre' => 'El Rincón de Gracia',
@@ -31,6 +32,7 @@ class RestauranteSeeder extends Seeder
                 'telefono' => '933456789',
                 'web' => 'www.elrincondegracia.com',
                 'id_barrio' => 2,
+                'imagen' => 'restaurantes/rincon.jpg'
             ],
             [
                 'nombre' => 'Sabor Mediterráneo',
@@ -40,6 +42,7 @@ class RestauranteSeeder extends Seeder
                 'telefono' => '932345678',
                 'web' => 'www.sabormediterraneo.com',
                 'id_barrio' => 3,
+                'imagen' => 'restaurantes/mediterraneo.jpg'
             ],
             [
                 'nombre' => 'prueba2',
@@ -49,6 +52,7 @@ class RestauranteSeeder extends Seeder
                 'telefono' => '934567882',
                 'web' => 'www.latascadelbarrio2.com',
                 'id_barrio' => 1,
+                'imagen' => 'restaurantes/prueba2.jpg'
             ],
             [
                 'nombre' => 'restaurante',
@@ -58,6 +62,7 @@ class RestauranteSeeder extends Seeder
                 'telefono' => '934567897',
                 'web' => 'www.restaurante.com',
                 'id_barrio' => 5,
+                'imagen' => 'restaurantes/restaurante.jpg'
             ],
         ];
 
