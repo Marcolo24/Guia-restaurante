@@ -54,7 +54,7 @@
                                 <form action="{{ route('restaurantes.destroy', $restaurante->id_restaurante) }}" 
                                       method="POST" 
                                       style="display:inline;"
-                                      onsubmit="return confirm('¿Estás seguro de que deseas eliminar este restaurante?');">
+                                      onsubmit="confirmarEliminacion(event)">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
@@ -66,4 +66,27 @@
             </tbody>
         </table>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        function confirmarEliminacion(event) {
+            event.preventDefault();
+            
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esta acción!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    event.target.submit();
+                }
+            });
+        }
+    </script>
 @endsection
