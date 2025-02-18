@@ -4,12 +4,12 @@
 @section('content')
     <div id="div-filtros">
         <div>
-            <h1 id="titulo">Elige entre los mejores restaurantes de Barcelona</h1>
-            <h2 id="subtitulo">El directorio foodie de Barcelona</h2>
+            <h1 class="titulo">Elige entre los mejores restaurantes de Barcelona</h1>
+            <h2 class="subtitulo">El directorio foodie de Barcelona</h2>
         </div>
         <div id="divfiltros">
             <form action="{{ route('principal.index') }}" method="GET">
-                <img class="imgfiltro" src="{{ asset('images/lupablack.png') }}" alt="">
+                <img class="imgfiltro" src="{{ asset('images/lupa.png') }}" alt="">
                 <input type="text" name="busqueda" placeholder="Que buscas?" value="{{ request('busqueda') }}">
                 
                 <img class="imgfiltro" src="{{ asset('images/hamburguesa.png') }}" alt="">
@@ -35,14 +35,14 @@
                 <button type="submit" class="btn btn-danger">Buscar</button>
                 
                 @if(request('busqueda') || request('tipo_comida') || request('barrio'))
-                    <a href="{{ route('principal.index') }}" class="btn btn-secondary">Limpiar filtros</a>
+                    <a href="{{ route('principal.index') }}" class="btn btn-secondary">Reiniciar_Filtros</a>
                 @endif
             </form>
         </div>
     </div>
     
 <div>
-        <div class="row row-cols-1 row-cols-md-4 g-4 justify-content-center w-100 mt-5">
+        <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center m-3">
             @if(isset($mensaje))
                 <div class="col-12 text-center">
                     <div class="alert alert-info">
@@ -53,12 +53,11 @@
 
             @foreach ($restaurantes as $restaurante)
                 <div class="col">
-                    <a href="{{ route('restaurantes.show', $restaurante->id_restaurante) }}" class="text-decoration-none text-dark">
+                    <a href="{{ route('principal.show', $restaurante->id_restaurante) }}" class="text-decoration-none text-dark">
                         <div class="card h-100 hover-shadow">
                             <img src="{{ asset('storage/' . ($restaurante->imagen ?? 'restaurantes/default.jpg')) }}" 
                                  class="card-img-top" 
-                                 alt="{{ $restaurante->nombre }}"
-                                 style="height: 200px; object-fit: cover;">
+                                 alt="{{ $restaurante->nombre }}">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $restaurante->nombre }}</h5>
                                 <p class="card-text">
