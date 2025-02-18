@@ -17,11 +17,16 @@
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="row justify-content-center mt-5">
-            <div class="col-md-6">
-                <div class="card">
+<body class="bg-black">
+    <div class="container-fluid d-flex justify-content-center align-items-center vh-100">
+        <div class="row w-75">
+            <!-- Columna de la imagen -->
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
+                <img src="{{ asset('images/bcnfoodieguide.jpg') }}" alt="BCN Foodie Guide" class="img-fluid object-fit-cover h-75">
+            </div>
+            <!-- Columna del formulario -->
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
+                <div class="card w-75">
                     <div class="card-header text-center">
                         <h4>Registro</h4>
                     </div>
@@ -78,6 +83,8 @@
                         <div class="text-center mt-3">
                             <p>¿Ya tienes cuenta? <a href="{{ route('login') }}">Inicia sesión aquí</a></p>
                         </div>
+                        <a href="{{ route('principal.index') }}" class="btn btn-secondary mt-2">Página principal</a>
+
                     </div>
                 </div>
             </div>
