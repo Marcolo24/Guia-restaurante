@@ -54,6 +54,27 @@
                         <button type="submit" class="btn btn-primary">Enviar valoración</button>
                     </form>
                 </div>
+                <div class="comentarios mt-4">
+                    <h4>Comentarios de usuarios</h4>
+                    @if($restaurante->valoraciones->whereNotNull('comentario')->count() > 0)
+                        @foreach($restaurante->valoraciones->whereNotNull('comentario') as $valoracion)
+                            <div class="comentario border-bottom py-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>{{ $valoracion->usuario->nombre ?? 'Usuario eliminado' }}</strong>
+                                        <div class="stars-display" data-rating="{{ $valoracion->puntuacion }}">
+                                            <span class="ms-2">({{ $valoracion->puntuacion }} estrellas)</span>
+                                        </div>
+                                    </div>
+                                    <small class="text-muted">{{ $valoracion->created_at->format('d/m/Y') }}</small>
+                                </div>
+                                <p class="mt-2 mb-0">{{ $valoracion->comentario }}</p>
+                            </div>
+                        @endforeach
+                    @else
+                        <p class="text-muted">No hay comentarios todavía.</p>
+                    @endif
+                </div>
             @else
                 <div class="alert alert-info">
                     <a href="{{ route('login') }}">Inicia sesión</a> para valorar este restaurante.
