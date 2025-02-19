@@ -188,3 +188,12 @@ footer {
     width: 50px;
     margin-right: 50px;
 }
+
+.card-restaurantes {
+    height: 100px;
+    width: 100px;
+}
+
+.card-title {
+    font-size: 30px;
+}

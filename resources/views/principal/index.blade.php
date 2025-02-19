@@ -49,7 +49,6 @@
                     </div>
                 </div>
             @endif
-
             @foreach ($restaurantes as $restaurante)
                 <div class="col">
                     <a href="{{ route('principal.show', $restaurante->id_restaurante) }}" class="text-decoration-none text-dark">
@@ -79,7 +78,6 @@
         </div>
     </div>
 </div>
-
 <div id="carouselExampleCaptions" class="carousel slide carousel-dark">
     <div class="carousel-inner">
         <div class="carousel-item active">
@@ -87,7 +85,7 @@
                 @for ($i = 1; $i <= 5; $i++)
                 <div class="col-2">
                     <div class="card">
-                        <img src="..." class="card-img-top" alt="...">
+                        <img src="{{ asset('images/taco.png') }}" class="card-img-top card-restaurantes" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">Card {{ $i }}</h5>
                             <p class="card-text">Contenido representativo para la tarjeta {{ $i }}.</p>
@@ -102,7 +100,7 @@
                 @for ($i = 6; $i <= 10; $i++)
                 <div class="col-2">
                     <div class="card">
-                        <img src="..." class="card-img-top" alt="...">
+                        <img src="..." class="card-img-top card-restaurantes" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">Card {{ $i }}</h5>
                             <p class="card-text">Contenido representativo para la tarjeta {{ $i }}.</p>
@@ -117,7 +115,7 @@
                 @for ($i = 11; $i <= 15; $i++)
                 <div class="col-2">
                     <div class="card">
-                        <img src="..." class="card-img-top" alt="...">
+                        <img src="" class="card-img-top card-restaurantes" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">Card {{ $i }}</h5>
                             <p class="card-text">Contenido representativo para la tarjeta {{ $i }}.</p>
@@ -142,7 +140,6 @@
         <span class="visually-hidden">Next</span>
     </button>
 </div>
-
 @push('scripts')
 <script>
 document.querySelectorAll('.rating-form input[type="radio"]').forEach(input => {
