@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Valoracion;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class RestauranteController extends Controller
 {
@@ -96,47 +97,67 @@ class RestauranteController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'nombre' => 'required|min:3',
-            'descripcion' => 'required|min:10',
-            'precio_medio' => 'required|numeric|min:1',
-            'direccion' => 'required',
-            'telefono' => 'required|regex:/^[0-9]{9}$/',
-            'web' => ['required', 'regex:/^www\.[a-z0-9\-]+\.[a-z0-9\-]+(\.[a-z]{2,6})?$/i'],
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
-            'id_barrio' => 'required|exists:barrio,id_barrio',
-            'tipo_comida' => 'required|exists:tipo_comida,id_tipo_comida',
-        ], [
-            'web.regex' => 'La URL debe comenzar con "www." y contener al menos un punto adicional.',
-        ]);
+        try {
+            $request->validate([
+                'nombre' => 'required|string|min:3|unique:restaurante,nombre',
+                'descripcion' => 'required|string|min:10',
+                'precio_medio' => 'required|numeric|min:1',
+                'direccion' => 'required|string|unique:restaurante,direccion',
+                'telefono' => [
+                    'required',
+                    'regex:/^[0-9]{9}$/',
+                    'unique:restaurante,telefono'
+                ],
+                'web' => 'required|string|unique:restaurante,web',
+                'imagen' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
+                'id_barrio' => 'required|exists:barrio,id_barrio',
+                'tipo_comida' => 'required|exists:tipo_comida,id_tipo_comida'
+            ], [
+                'nombre.unique' => 'Ya existe un restaurante con el nombre "' . $request->nombre . '". Por favor, elige otro nombre.',
+                'direccion.unique' => 'Ya existe un restaurante en la dirección "' . $request->direccion . '". Por favor, verifica la dirección.',
+                'telefono.unique' => 'El número de teléfono ' . $request->telefono . ' ya está registrado para otro restaurante.',
+                'web.unique' => 'El sitio web ' . $request->web . ' ya está registrado para otro restaurante.',
+                'telefono.regex' => 'El teléfono debe contener 9 dígitos numéricos.',
+                'id_barrio.exists' => 'El barrio seleccionado no es válido.',
+            ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            DB::transaction(function () use ($request) {
+                $restaurante = new Restaurante();
+                $restaurante->nombre = $request->nombre;
+                $restaurante->descripcion = $request->descripcion;
+                $restaurante->precio_medio = $request->precio_medio;
+                $restaurante->direccion = $request->direccion;
+                $restaurante->telefono = $request->telefono;
+                $restaurante->web = $request->web;
+                $restaurante->id_barrio = $request->id_barrio;
+                
+                if ($request->hasFile('imagen')) {
+                    $path = $request->imagen->store('restaurantes_fotos', 'public');
+                    $restaurante->imagen = $path;
+                }
+                
+                $restaurante->save();
+
+                // Asociar tipo de comida al restaurante
+                $restaurante->tiposComida()->sync([$request->tipo_comida]);
+            });
+
+            return redirect()->route('restaurantes.index')
+                ->with('mensaje', 'El restaurante ha sido creado correctamente')
+                ->with('tipo', 'success');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()
+                ->withErrors($e->validator)
+                ->withInput()
+                ->with('mensaje', 'Error al crear el restaurante: ' . $e->getMessage())
+                ->with('tipo', 'danger');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('mensaje', 'Error al crear el restaurante: ' . $e->getMessage())
+                ->with('tipo', 'danger');
         }
-
-        DB::transaction(function () use ($request) {
-            $restaurante = new Restaurante();
-            $restaurante->nombre = $request->nombre;
-            $restaurante->descripcion = $request->descripcion;
-            $restaurante->precio_medio = $request->precio_medio;
-            $restaurante->direccion = $request->direccion;
-            $restaurante->telefono = $request->telefono;
-            $restaurante->web = $request->web;
-            $restaurante->id_barrio = $request->id_barrio;
-            
-            if ($request->hasFile('imagen')) {
-                $path = $request->imagen->store('restaurantes_fotos', 'public');
-                $restaurante->imagen = $path;
-            }
-            
-            $restaurante->save();
-
-            // Asociar tipo de comida al restaurante
-            $restaurante->tiposComida()->sync([$request->tipo_comida]);
-        });
-
-        return redirect()->route('restaurantes.index')
-            ->with('success', 'Restaurante creado con éxito.');
     }
 
     public function edit($id)
@@ -151,15 +172,40 @@ class RestauranteController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nombre' => 'required|string|max:255',
+            'nombre' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('restaurante', 'nombre')->ignore($id, 'id_restaurante')
+            ],
             'descripcion' => 'required|string|max:255',
             'precio_medio' => 'required|numeric',
-            'direccion' => 'required|string|max:255',
-            'telefono' => 'required|string|max:20',
-            'web' => 'nullable|string|max:255',
+            'direccion' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('restaurante', 'direccion')->ignore($id, 'id_restaurante')
+            ],
+            'telefono' => [
+                'required',
+                'regex:/^[0-9]{9}$/',
+                Rule::unique('restaurante', 'telefono')->ignore($id, 'id_restaurante')
+            ],
+            'web' => [
+                'nullable',
+                'string',
+                'max:255',
+                Rule::unique('restaurante', 'web')->ignore($id, 'id_restaurante')
+            ],
             'imagen' => 'nullable|image|max:2048',
             'tipo_comida' => 'required|exists:tipo_comida,id_tipo_comida',
             'id_barrio' => 'required|exists:barrio,id_barrio',
+        ], [
+            'nombre.unique' => 'Ya existe un restaurante con el nombre especificado',
+            'direccion.unique' => 'Ya existe un restaurante en la dirección especificada',
+            'telefono.unique' => 'El número de teléfono ya está registrado para otro restaurante',
+            'telefono.regex' => 'El teléfono debe contener 9 dígitos numéricos',
+            'web.unique' => 'El sitio web ya está registrado para otro restaurante',
         ]);
 
         DB::transaction(function () use ($request, $id) {
