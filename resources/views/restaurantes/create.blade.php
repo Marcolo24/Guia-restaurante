@@ -179,7 +179,7 @@ function validateTelefono(input) {
 
 function validateWeb(input) {
     const errorDiv = document.getElementById('webError');
-    const webRegex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+    const webRegex = /^www\.[a-z0-9\-]+\.[a-z0-9\-]+(\.[a-z]{2,6})?$/i;
     if (input.value.trim() === '') {
         input.classList.add('error');
         errorDiv.textContent = 'El sitio web es requerido';

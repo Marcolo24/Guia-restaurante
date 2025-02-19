@@ -35,11 +35,53 @@
                 <button type="submit" class="btn btn-danger">Buscar</button>
                 
                 @if(request('busqueda') || request('tipo_comida') || request('barrio'))
-                    <a href="{{ route('principal.index') }}" class="btn btn-secondary">Reiniciar_Filtros</a>
+                    <a href="{{ route('principal.index') }}" class="btn btn-secondary">Limpiar_filtros</a>
                 @endif
             </form>
         </div>
     </div>
+
+
+    <div id="carouselExampleCaptions" class="carousel slide carousel-dark m-5" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            @foreach($tiposComida->filter(fn($tipo) => $tipo->restaurantes->count() > 0)->chunk(5) as $index => $tipoChunk)
+                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                    <div class="row justify-content-center">
+                        @foreach($tipoChunk as $tipo)
+                            <div class="col-2">
+                                <a href="{{ route('principal.index', ['tipo_comida' => $tipo->nombre]) }}" class="text-decoration-none">
+                                    <div class="card text-center">
+                                        <img src="{{ asset('images/chicken-rice.png') }}" class="card-img-top card-restaurantes mx-auto d-block" alt="{{ $tipo->nombre }}">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ $tipo->nombre }}</h5>
+                                            <p class="card-text">Número de restaurantes: {{ $tipo->restaurantes->count() }}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endforeach
+        </div>
+        <div class="carousel-indicators" style="position: relative; z-index: 1; margin-top: 10px;">
+            @foreach($tiposComida->filter(fn($tipo) => $tipo->restaurantes->count() > 0)->chunk(5) as $index => $tipoChunk)
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{ $index }}" class="{{ $index == 0 ? 'active' : '' }}" aria-current="{{ $index == 0 ? 'true' : 'false' }}" aria-label="Slide {{ $index + 1 }}"></button>
+            @endforeach
+        </div>
+        <button class="carousel-control-prev flecha-carousel-izquierda" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next flecha-carousel-derecha" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+<div class="m-5 mb-0">
+    <p class="subtitulo color"><strong>Últimos restaurantes y bares añadidos</strong></p>
+</div>
 
         <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center m-3">
             @if(isset($mensaje))
@@ -49,6 +91,7 @@
                     </div>
                 </div>
             @endif
+
             @foreach ($restaurantes as $restaurante)
                 <div class="col">
                     <a href="{{ route('principal.show', $restaurante->id_restaurante) }}" class="text-decoration-none text-dark">
@@ -78,68 +121,7 @@
         </div>
     </div>
 </div>
-<div id="carouselExampleCaptions" class="carousel slide carousel-dark">
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <div class="row justify-content-center">
-                @for ($i = 1; $i <= 5; $i++)
-                <div class="col-2">
-                    <div class="card">
-                        <img src="{{ asset('images/taco.png') }}" class="card-img-top card-restaurantes" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card {{ $i }}</h5>
-                            <p class="card-text">Contenido representativo para la tarjeta {{ $i }}.</p>
-                        </div>
-                    </div>
-                </div>
-                @endfor
-            </div>
-        </div>
-        <div class="carousel-item">
-            <div class="row justify-content-center">
-                @for ($i = 6; $i <= 10; $i++)
-                <div class="col-2">
-                    <div class="card">
-                        <img src="..." class="card-img-top card-restaurantes" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card {{ $i }}</h5>
-                            <p class="card-text">Contenido representativo para la tarjeta {{ $i }}.</p>
-                        </div>
-                    </div>
-                </div>
-                @endfor
-            </div>
-        </div>
-        <div class="carousel-item">
-            <div class="row justify-content-center">
-                @for ($i = 11; $i <= 15; $i++)
-                <div class="col-2">
-                    <div class="card">
-                        <img src="" class="card-img-top card-restaurantes" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card {{ $i }}</h5>
-                            <p class="card-text">Contenido representativo para la tarjeta {{ $i }}.</p>
-                        </div>
-                    </div>
-                </div>
-                @endfor
-            </div>
-        </div>
-    </div>
-    <div class="carousel-indicators" style="position: relative; z-index: 1; margin-top: 10px;">
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-    </div>
-    <button class="carousel-control-prev flecha-carousel-izquierda" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next flecha-carousel-derecha" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
+
 @push('scripts')
 <script>
 document.querySelectorAll('.rating-form input[type="radio"]').forEach(input => {

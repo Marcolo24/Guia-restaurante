@@ -5,7 +5,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h1 class="mt-5 color subtitulo">Lista de Restaurantes</h1>
             <div>
-                <a href="{{ route('usuarios.index') }}" class="btn btn-info">Gestionar Usuarios</a>
+                <a href="{{ route('usuarios.index') }}" class="btn btn-info text-white">Gestionar Usuarios</a>
                 <a href="{{ route('principal.index') }}" class="btn btn-secondary">Volver a Principal</a>
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
@@ -22,6 +22,41 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+
+<p class="subsubtitulo">Filtros:</p>
+
+
+        <form method="GET" action="{{ route('restaurantes.index') }}" class="mb-4" style="font-size: 20px;">
+            <div class="row" style="font-size: 20px;">
+                <div class="col-md-2">
+                    <input type="text" name="nombre" class="form-control" placeholder="Nombre" value="{{ request('nombre') }}" style="font-size: 20px;">
+                </div>
+                <div class="col-md-2">
+                    <input type="text" name="descripcion" class="form-control" placeholder="Descripción" value="{{ request('descripcion') }}" style="font-size: 20px;">
+                </div>
+                <div class="col-md-2">
+                    <select name="barrio" class="form-control" style="font-size: 20px;">
+                        <option value="">Barrio</option>
+                        @foreach ($barrios as $barrio)
+                            <option value="{{ $barrio->id_barrio }}" {{ request('barrio') == $barrio->id_barrio ? 'selected' : '' }}>
+                                {{ $barrio->barrio }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="orden_precio" class="form-control" style="font-size: 20px;">
+                        <option value="">Precio</option>
+                        <option value="asc" {{ request('orden_precio') == 'asc' ? 'selected' : '' }}>Ascendente</option>
+                        <option value="desc" {{ request('orden_precio') == 'desc' ? 'selected' : '' }}>Descendente</option>
+                    </select>
+                </div>
+                <div class="col-md-4 d-flex">
+                    <button type="submit" class="btn btn-success me-2" style="font-size: 20px;">Aplicar</button>
+                    <a href="{{ route('restaurantes.index') }}" class="btn btn-danger" style="font-size: 20px; border-radius: 10px;">Limpiar filtros</a>
+                </div>
+            </div>
+        </form>
         <div class="table-responsive">
             <table class="table mt-3 text-center align-middle crud">
                 <thead class="align-middle">
@@ -68,6 +103,8 @@
                 </tbody>
             </table>
         </div>
+
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
