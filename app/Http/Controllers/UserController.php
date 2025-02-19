@@ -9,9 +9,24 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $usuarios = User::paginate(10);
+        $query = User::query();
+
+        // Aplicar filtros si están presentes
+        if ($request->filled('nombre')) {
+            $query->where('nombre', 'like', '%' . $request->nombre . '%');
+        }
+
+        if ($request->filled('correo')) {
+            $query->where('correo', 'like', '%' . $request->correo . '%');
+        }
+
+        if ($request->filled('rol')) {
+            $query->where('id_rol', $request->rol);
+        }
+
+        $usuarios = $query->paginate(10); // Puedes ajustar el número de resultados por página
         return view('admin.usuarios.index', compact('usuarios'));
     }
 

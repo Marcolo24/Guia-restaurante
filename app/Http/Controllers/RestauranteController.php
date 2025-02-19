@@ -59,10 +59,32 @@ class RestauranteController extends Controller
     /**
      * Muestra la lista de restaurantes en el panel de administración
      */
-    public function index()
+    public function index(Request $request)
     {
-        $restaurantes = Restaurante::with(['barrio', 'tiposComida'])->get();
-        return view('restaurantes.index', compact('restaurantes'));
+        $query = Restaurante::query();
+
+        // Aplicar filtros si están presentes
+        if ($request->filled('nombre')) {
+            $query->where('nombre', 'like', '%' . $request->nombre . '%');
+        }
+
+        if ($request->filled('descripcion')) {
+            $query->where('descripcion', 'like', '%' . $request->descripcion . '%');
+        }
+
+        if ($request->filled('barrio')) {
+            $query->where('id_barrio', $request->barrio);
+        }
+
+        // Ordenar por precio medio si está presente
+        if ($request->filled('orden_precio')) {
+            $query->orderBy('precio_medio', $request->orden_precio);
+        }
+
+        $restaurantes = $query->get();
+        $barrios = Barrio::all();
+
+        return view('restaurantes.index', compact('restaurantes', 'barrios'));
     }
 
     public function create()
@@ -80,10 +102,12 @@ class RestauranteController extends Controller
             'precio_medio' => 'required|numeric|min:1',
             'direccion' => 'required',
             'telefono' => 'required|regex:/^[0-9]{9}$/',
-            'web' => 'required|url',
+            'web' => ['required', 'regex:/^www\.[a-z0-9\-]+\.[a-z0-9\-]+(\.[a-z]{2,6})?$/i'],
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
-            'id_barrio' => 'required|exists:barrios,id_barrio',
-            'tipo_comida' => 'required|exists:tipos_comida,id_tipo_comida',
+            'id_barrio' => 'required|exists:barrio,id_barrio',
+            'tipo_comida' => 'required|exists:tipo_comida,id_tipo_comida',
+        ], [
+            'web.regex' => 'La URL debe comenzar con "www." y contener al menos un punto adicional.',
         ]);
 
         if ($validator->fails()) {
