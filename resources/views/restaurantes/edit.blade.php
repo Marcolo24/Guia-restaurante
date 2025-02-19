@@ -8,6 +8,25 @@
                 <a href="{{ route('restaurantes.index') }}" class="btn btn-secondary">Cancelar</a>
             </div>
         </div>
+
+        @if(session('mensaje'))
+            <div class="alert alert-{{ session('tipo') }} alert-dismissible fade show" role="alert">
+                {{ session('mensaje') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <form class="size" action="{{ route('restaurantes.update', $restaurante->id_restaurante) }}" method="POST" enctype="multipart/form-data" id="editForm">
             @csrf
             @method('PUT')

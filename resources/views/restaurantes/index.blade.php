@@ -3,28 +3,33 @@
 @section('content')
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1 class="mt-5 color subtitulo">Lista de Restaurantes</h1>
-            <div>
-                <a href="{{ route('usuarios.index') }}" class="btn btn-info text-white">Gestionar Usuarios</a>
-                <a href="{{ route('principal.index') }}" class="btn btn-secondary">Volver a Principal</a>
+            <h1 class="mt-5 color subtitulo">Gestión de Restaurantes</h1>
+            <div class="d-flex gap-2">
+                <a href="{{ route('principal.index') }}" class="btn btn-secondary">
+                    Inicio
+                </a>
+                <a href="{{ route('usuarios.index') }}" class="btn btn-info text-white">
+                    Gestionar Usuarios
+                </a>
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
-                    <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
+                    <button type="submit" class="btn btn-danger">
+                        Cerrar Sesión
+                    </button>
                 </form>
             </div>
         </div>
 
-        <a href="{{ route('restaurantes.create') }}" class="btn btn-primary mb-3">Crear Restaurante</a>
-        
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
+        @if(session('mensaje'))
+            <div class="alert alert-{{ session('tipo') }} alert-dismissible fade show" role="alert">
+                {{ session('mensaje') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
-
-<p class="subsubtitulo">Filtros:</p>
-
+        <a href="{{ route('restaurantes.create') }}" class="btn btn-primary">
+            Crear Restaurante
+        </a>
+        <p class="subsubtitulo">Filtros:</p>
 
         <form method="GET" action="{{ route('restaurantes.index') }}" class="mb-4" style="font-size: 20px;">
             <div class="row" style="font-size: 20px;">
@@ -103,8 +108,6 @@
                 </tbody>
             </table>
         </div>
-
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
